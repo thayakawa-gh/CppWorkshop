@@ -1,10 +1,11 @@
-#include <iostream>// <- std::coutã‚’ä½¿ã†ãŸã‚ã«å¿…è¦ã€‚
-#include <format>// <- std::formatã‚’ä½¿ã†ãŸã‚ã«å¿…è¦ã€‚
+#include <iostream>// <- std::cout‚ðŽg‚¤‚½‚ß‚É•K—vB
+#include <format>// <- std::format‚ðŽg‚¤‚½‚ß‚É•K—vB
+#include <print>// <- std::print‚ðŽg‚¤‚½‚ß‚É•K—vB
 
 int main()
 {
-	//printfã¯ã‚‚ã†å¤ã„ã€‚
-	//C++ã§ã¯std::coutã¨std::formatã‚’ä½¿ãŠã†ã€‚
+	//printf‚Í‚à‚¤ŒÃ‚¢B
+	//C++‚Å‚Ístd::cout‚Æstd::format‚ðŽg‚¨‚¤B
 
 	char hello[] = "Hello";
 	char world[] = "World";
@@ -12,18 +13,23 @@ int main()
 
 	std::cout << std::format("{} {}!\n", hello, world);
 
-	// æ•´æ•°
+	// ®”
 	int i = 1;
 	std::cout << std::format("i == {}\n", i);
-	std::cout << std::format("i == {:0>3}\n", i);// 0åŸ‹ã‚ã€å³å¯„ã›ã€3æ¡
+	std::cout << std::format("i == {:0>3}\n", i);// 0–„‚ßA‰EŠñ‚¹A3Œ…
 
-	// æµ®å‹•å°æ•°ç‚¹
+	// •‚“®¬”“_
 	double d = 3.141592653589793;
 	std::cout << std::format("pi == {}\n", d);
-	std::cout << std::format("pi == {:>4.2f}\n", d);// å³å¯„ã›ã€å¹…4ã€å°æ•°ç‚¹ä»¥ä¸‹2æ¡ã€fã¯æŒ‡æ•°è¡¨è¨˜ã‚’ã—ãªã„ã“ã¨ã‚’æ˜Žç¤ºã€‚
+	std::cout << std::format("pi == {:>4.2f}\n", d);// ‰EŠñ‚¹A•4A¬”“_ˆÈ‰º2Œ…Af‚ÍŽw”•\‹L‚ð‚µ‚È‚¢‚±‚Æ‚ð–¾Ž¦B
+
+	// std::cout << std::format‚ðŽg‚¤‘ã‚í‚è‚ÉAstd::print‚ðŽg‚¤‚±‚Æ‚à‚Å‚«‚éB
+	// ‚½‚¾‚µstd::print‚Í‚©‚È‚èV‚µ‚¢‹@”\‚È‚Ì‚ÅAVisual Studio 2022 Update 7ˆÈ~‚ª•K—vA
+	// ‚©‚ÂC++Œ¾Œê•W€‚ð/std:c++latest‚ÉÝ’è‚·‚é•K—v‚ª‚ ‚éB
+	std::print("pi == {:>6.4f}\n", d);
 }
 
-/* å•é¡Œ
+/* –â‘è
 int pl = 25;
 int64_t rawid = 12345;
 int ph = 220142;
@@ -31,8 +37,8 @@ double ax = 0.2446;
 doulbe ay = -1.5907;
 double x = 12605.2;
 double y = 190451.0;
-ä¸Šè¨˜ã®ã‚ˆã†ãªæƒ…å ±ã‚’æŒã¤BasetrackãŒã‚ã‚Šã¾ã™ã€‚
-ã“ã®Basetrackã®æƒ…å ±ã‚’ã€pl:0åŸ‹ã‚3æ¡ã€rawid:10æ¡ã€ph:6æ¡ã€axay:å°æ•°ç¬¬4ä½ã¾ã§ã€xyz:å°æ•°ç¬¬1ä½ã¾ã§ã¨ã„ã†ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆã§è¡¨ç¤ºã•ã›ã¦ã¿ã¾ã—ã‚‡ã†ã€‚
-æ¬¡ã®ã‚ˆã†ã«è¡¨ç¤ºã•ã‚ŒãŸã‚‰æ­£è§£ã§ã™ã€‚
+ã‹L‚Ì‚æ‚¤‚Èî•ñ‚ðŽ‚ÂBasetrack‚ª‚ ‚è‚Ü‚·B
+‚±‚ÌBasetrack‚Ìî•ñ‚ðApl:0–„‚ß3Œ…Arawid:10Œ…Aph:6Œ…Aaxay:¬”‘æ4ˆÊ‚Ü‚ÅAxyz:¬”‘æ1ˆÊ‚Ü‚Å‚Æ‚¢‚¤ƒtƒH[ƒ}ƒbƒg‚Å•\Ž¦‚³‚¹‚Ä‚Ý‚Ü‚µ‚å‚¤B
+ŽŸ‚Ì‚æ‚¤‚É•\Ž¦‚³‚ê‚½‚ç³‰ð‚Å‚·B
 025      12345 220142  0.2446 -1.5907   12605.2  190451.0
 */

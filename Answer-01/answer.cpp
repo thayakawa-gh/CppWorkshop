@@ -8,7 +8,7 @@ std::string Replace(std::string str)
 {
 	size_t pos = str.find("Bonjour");
 	if (pos != std::string::npos)
-		str.replace(pos, 7, "Buon giorno");//Bonjourã¯7æ–‡å­—ãªã®ã§ã€7ã‚’æŒ‡å®šã€‚
+		str.replace(pos, 7, "Buon giorno");//Bonjour‚Í7•¶š‚È‚Ì‚ÅA7‚ğw’èB
 	return str;
 
 }
