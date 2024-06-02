@@ -24,9 +24,11 @@ int main()
 	std::cout << std::format("pi == {:>4.2f}\n", d);// 右寄せ、幅4、小数点以下2桁、fは指数表記をしないことを明示。
 
 	// std::cout << std::formatを使う代わりに、std::printを使うこともできる。
-	// ただしstd::printはかなり新しい機能なので、Visual Studio 2022 Update 7以降が必要、
-	// かつC++言語標準を/std:c++latestに設定する必要がある。
 	std::print("pi == {:>6.4f}\n", d);
+
+	// std::format、std::printはどちらもここ数年の間に導入された新しい機能のため、古いコンパイラでは使えないことがある。
+	// std::formatを使うにはVisual Studio 2019以降が必要で、C++言語標準を/std:c++20または/std:c++latestに設定する必要がある。
+	// std::printを使うにはVisual Studio 2022 Update 7以降が必要、かつC++言語標準を/std:c++latestに設定する必要がある。
 }
 
 /* 問題
@@ -38,7 +40,9 @@ doulbe ay = -1.5907;
 double x = 12605.2;
 double y = 190451.0;
 上記のような情報を持つBasetrackがあります。
-このBasetrackの情報を、pl:0埋め3桁、rawid:10桁、ph:6桁、axay:小数第4位まで、xyz:小数第1位までというフォーマットで表示させてみましょう。
+このBasetrackの情報を、
+pl:0埋め幅3、rawid:幅10、ph:幅6、axay:幅7で小数第4位まで、xyz:幅9で小数第1位まで
+というフォーマットで表示させてみましょう。
 次のように表示されたら正解です。
 025      12345 220142  0.2446 -1.5907   12605.2  190451.0
 */

@@ -1,9 +1,26 @@
 #include <iostream>
 #include <map>
 
+/*
+ ##### std::map #####
+ std::mapはC++標準ライブラリに含まれる、連想配列を扱う機能。
+ C言語標準にはそもそも類似機能はなく、C++で新たに追加された。
+ 連想配列とは、キーと値をペアにして格納するデータ構造で、キーを使って値を検索することができる。
+ 全要素の中からキーの値を探索するのが速く、要素の追加や削除も比較的高速に行える。
+ 
+  初期化					std::map<int, std::string> map = { {1, "one"}, {3, "three"} };
+  要素の追加				map.insert(std::make_pair(5, "five"))
+  要素のアクセス			map[5]
+  要素の削除				map.erase(5)//キーが5に一致する要素を削除
+  要素の検索				std::map<int, std::string>::iterator it = map.find(5)//キーが5に一致する要素を探索
+  サイズ取得				map.size()
+  全要素削除				map.clear()
+*/
+
 int main()
 {
 	// mapの初期化
+	// キーがint型、値がstd::string型のmapを作成する。
 	std::map<int, std::string> map;
 
 	// 要素の追加
@@ -41,10 +58,10 @@ int main()
 	// 要素の検索
 	auto it = map.find(1);
 	if (it != map.end()) {
-		std::cout << "Element with key 1 found: " << it->second << std::endl;
+		std::cout << "Element with key " << it->first << " found: " << it->second << std::endl;
 	}
 	else {
-		std::cout << "Element with key 1 not found" << std::endl;
+		std::cout << "Element with key " << it->first << " not found" << std::endl;
 	}
 
 	// すべての要素のクリア

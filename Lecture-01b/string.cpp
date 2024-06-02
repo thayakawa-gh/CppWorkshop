@@ -1,78 +1,95 @@
 #include <iostream>
-#include <string> // <- std::stringƒNƒ‰ƒX‚ğg‚¤‚½‚ß‚É•K—v
+#include <string> // <- std::stringã‚¯ãƒ©ã‚¹ã‚’ä½¿ã†ãŸã‚ã«å¿…è¦
 #include <format>
 
 std::string Replace(std::string str)
 {
 	size_t pos = str.find("Bonjour");
 	if (pos != std::string::npos)
-		str.replace(pos, 7, "Buon giorno");//Bonjour‚Í7•¶š‚È‚Ì‚ÅA7‚ğw’èB
+		str.replace(pos, 7, "Buon giorno");//Bonjourã¯7æ–‡å­—ãªã®ã§ã€7ã‚’æŒ‡å®šã€‚
 	return str;
 }
+
+/*
+ ##### std::string #####
+ std::stringã¯C++æ¨™æº–ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã«å«ã¾ã‚Œã‚‹ã€æ–‡å­—åˆ—ã‚’æ‰±ã†æ©Ÿèƒ½ã€‚
+ Cè¨€èªã®charå‹é…åˆ—ã¨ã¯ç•°ãªã‚Šã€=ã«ã‚ˆã‚‹ä»£å…¥ã€==ã§ã®æ¯”è¼ƒã€+ã§ã®çµåˆãªã©ã«å¯¾å¿œã—ã¦ã„ã‚‹ã€‚
+ æ–‡å­—åˆ—ã®é•·ã•ã‚’æ°—ã«ã™ã‚‹å¿…è¦ã‚‚ãªãã€éå¸¸ã«æ‰±ã„ã‚„ã™ã„ã€‚
+
+					Cè¨€èªã®é…åˆ—							C++ã®std::string
+ æ–‡å­—åˆ—ã®ã‚³ãƒ”ãƒ¼		strcpy(str, "Hello")				str = "Hello"
+ æ–‡å­—åˆ—ã®æ¯”è¼ƒ		strcmp(str, "Hello") == 0			str == "Hello"
+ æ–‡å­—åˆ—ã®çµåˆ		strcat(str, " World")				str += " World"
+ æ–‡å­—åˆ—ã®é•·ã•		strlen(str)							str.length()
+ éƒ¨åˆ†æ–‡å­—åˆ—ã®å–å¾—		-									std::string sub = str.substr(3, 2)//3æ–‡å­—ç›®ã‹ã‚‰2æ–‡å­—åˆ†ã‚’æŠ½å‡º sub == "lo"
+ æ–‡å­—åˆ—ã®æ¤œç´¢		char* pos = strstr(str, "World")	size_t pos = str.find("World")
+ æ–‡å­—åˆ—ã®ç½®æ›		-									str.replace(6, 5, "Everyone")//6æ–‡å­—ç›®ã‹ã‚‰5æ–‡å­—åˆ†ã‚’Everyoneã«ç½®æ›
+*/
+
 int main()
 {
-	// •¶š—ñ‚Ì‰Šú‰»
+	// æ–‡å­—åˆ—ã®åˆæœŸåŒ–
 	std::string str1 = "Hello";
 	std::string str2 = "World";
 
-	// o—Í
+	// å‡ºåŠ›
 	std::cout << "str1 : " << str1 << std::endl;
 	std::cout << "str2 : " << str2 << std::endl;
 
-	// •¶š—ñ‚Ì”äŠr
+	// æ–‡å­—åˆ—ã®æ¯”è¼ƒ
 	if (str1 == "Hello")
 		std::cout << "str1 == \"Hello\" : Yes" << std::endl;
 
-	// •¶š—ñ‚ÌŒ‹‡
+	// æ–‡å­—åˆ—ã®çµåˆ
 	std::string str3 = str1 + " " + str2;
 	std::cout << "str3 = str1 + \" \" + str2 : " << str3 << std::endl;
 
-	// •¶š—ñ‚Ì’Ç‰Á
+	// æ–‡å­—åˆ—ã®è¿½åŠ 
 	str3 += "!";
 	std::cout << "str3 += \"!\" : " << str3 << std::endl;
 
-	// •”•ª•¶š—ñ‚Ì’Šo
-	std::string str4 = str3.substr(6, 5);//Hello World‚Ì6•¶š–Ú‚©‚ç5•¶š•ª‚ğ’ŠoB
+	// éƒ¨åˆ†æ–‡å­—åˆ—ã®æŠ½å‡º
+	std::string str4 = str3.substr(6, 5);//Hello Worldã®6æ–‡å­—ç›®ã‹ã‚‰5æ–‡å­—åˆ†ã‚’æŠ½å‡ºã€‚
 	std::cout << "str4 = str3.substr(6, 5) : " << str4 << std::endl;
 
-	// •¶š—ñ‚Ì’·‚³
+	// æ–‡å­—åˆ—ã®é•·ã•
 	std::cout << "Length of str3 : " << str3.length() << std::endl;
 
-	// •¶š‚ÌƒAƒNƒZƒX
+	// æ–‡å­—ã®ã‚¢ã‚¯ã‚»ã‚¹
 	char ch = str3[1];
 	std::cout << "str3[1] : " << ch << std::endl;
 
-	// •¶š—ñ‚ÌŒŸõ
-	// World‚ªŒ©‚Â‚©‚Á‚½ê‡Apos‚É‚Í'W'‚ÌˆÊ’u‚ª“ü‚éB
+	// æ–‡å­—åˆ—ã®æ¤œç´¢
+	// WorldãŒè¦‹ã¤ã‹ã£ãŸå ´åˆã€posã«ã¯'W'ã®ä½ç½®ãŒå…¥ã‚‹ã€‚
 	size_t pos = str3.find("World");
-	if (pos != std::string::npos)//std::string::npos‚Í•¶š—ñ‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡‚Ì•Ô‚è’l
+	if (pos != std::string::npos)//std::string::nposã¯æ–‡å­—åˆ—ãŒè¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸå ´åˆã®è¿”ã‚Šå€¤
 		std::cout << "str3.find(\"World\") :" << pos << std::endl;
 	else
 		std::cout << "\"World\" not found" << std::endl;
 
-	// •¶š—ñ‚Ì’uŠ·
-	// Hello World‚Ì6•¶š–Ú‚©‚ç5•¶š•ª‚ğEveryone‚É’uŠ·B
+	// æ–‡å­—åˆ—ã®ç½®æ›
+	// Hello Worldã®6æ–‡å­—ç›®ã‹ã‚‰5æ–‡å­—åˆ†ã‚’Everyoneã«ç½®æ›ã€‚
 	str3.replace(6, 5, "Everyone");
 	std::cout << "str3.replace(6, 5, \"Everyone\") : " << str3 << std::endl;
 
-	// •¶š—ñ‚Ì‘}“ü
-	// 5•¶š–Ú‚Æ6•¶š–Ú‚ÌŠÔ‚É','‚ğ‘}“üB
+	// æ–‡å­—åˆ—ã®æŒ¿å…¥
+	// 5æ–‡å­—ç›®ã¨6æ–‡å­—ç›®ã®é–“ã«','ã‚’æŒ¿å…¥ã€‚
 	str3.insert(5, ",");
 	std::cout << "str3.insert(5, \",\") : " << str3 << std::endl;
 
-	// •¶š—ñ‚Ìíœ
-	// 5•¶š–Ú‚ğíœB
+	// æ–‡å­—åˆ—ã®å‰Šé™¤
+	// 5æ–‡å­—ç›®ã‚’å‰Šé™¤ã€‚
 	str3.erase(5, 1);
 	std::cout << "str3.erase(5, 1) : " << str3 << std::endl;
 
-	// •¶š—ñ‚ÌƒNƒŠƒA
+	// æ–‡å­—åˆ—ã®ã‚¯ãƒªã‚¢
 	str3.clear();
 	std::cout << "str3.clear() : " << str3 << std::endl;
 	if (str3.empty())
 		std::cout << "str3.empty() : Yes" << std::endl;
 
-	// std::format‚ğg‚Á‚½•¶š—ñ‚ÌƒtƒH[ƒ}ƒbƒg
-	str3 = std::format("{} {}", str1, str2);//À‚Ístd::format‚Ístd::string‚ğ•Ô‚·‚Ì‚ÅA•¶š—ñ‚ÌƒtƒH[ƒ}ƒbƒg‚Ég‚¦‚éB
+	// std::formatã‚’ä½¿ã£ãŸæ–‡å­—åˆ—ã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
+	str3 = std::format("{} {}", str1, str2);//å®Ÿã¯std::formatã¯std::stringã‚’è¿”ã™ã®ã§ã€æ–‡å­—åˆ—ã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã«ä½¿ãˆã‚‹ã€‚
 	std::cout << "str3 = std::format(\"{} {}\", str1, str2) : " << str3 << std::endl;
 
 
@@ -84,17 +101,17 @@ int main()
 }
 
 /*
-–â‘è
-std::stringŒ^‚Ì•Ï”‚ğó‚¯æ‚Á‚Ä‚»‚Ì’†‚©‚ç"Bonjour"‚Æ‚¢‚¤•¶š—ñ‚ğŒŸõ‚µA
-Œ©‚Â‚©‚Á‚½ê‡‚Í"Buon giorno"‚É’uŠ·‚µ‚Ä•Ô‚·A‚Æ‚¢‚¤ŠÖ”‚ğì‚Á‚Ä‚İ‚Ü‚µ‚å‚¤B
-find()Areplace()‚ğg‚Á‚Ä‚­‚¾‚³‚¢B
+å•é¡Œ
+std::stringå‹ã®å¤‰æ•°ã‚’å—ã‘å–ã£ã¦ãã®ä¸­ã‹ã‚‰"Bonjour"ã¨ã„ã†æ–‡å­—åˆ—ã‚’æ¤œç´¢ã—ã€
+è¦‹ã¤ã‹ã£ãŸå ´åˆã¯"Buon giorno"ã«ç½®æ›ã—ã¦è¿”ã™ã€ã¨ã„ã†é–¢æ•°ã‚’ä½œã£ã¦ã¿ã¾ã—ã‚‡ã†ã€‚
+find()ã€replace()ã‚’ä½¿ã£ã¦ãã ã•ã„ã€‚
 std::string Replace(std::string str)
 {
-	//‚±‚±‚Éˆ—‚ğ‘‚­B
+	//ã“ã“ã«å‡¦ç†ã‚’æ›¸ãã€‚
 	return str;
 }
 
-ˆÈ‰º‚Ìtest1Atest2‚ğ—^‚¦‚Ä‚İ‚ÄA³‚µ‚­“®ì‚µ‚Ä‚¢‚é‚©Šm”F‚µ‚Ü‚µ‚å‚¤B
+ä»¥ä¸‹ã®test1ã€test2ã‚’ä¸ãˆã¦ã¿ã¦ã€æ­£ã—ãå‹•ä½œã—ã¦ã„ã‚‹ã‹ç¢ºèªã—ã¾ã—ã‚‡ã†ã€‚
 std::string test1 = "Hello Hola Bonjour Merhaba";
 std::string test2 = "Hej Merhaba";
 std::cout << Replace(test1) << "\n";

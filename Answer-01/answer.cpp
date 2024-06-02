@@ -39,7 +39,7 @@ int main()
 
 	// Lecture-01b
 	std::string test1 = "Hello Hola Bonjour Merhaba";
-	std::string test2 = "Hej Merhaba";
+	std::string test2 = "Hej Hallo";
 	std::cout << Replace(test1) << "\n";
 	std::cout << Replace(test2) << "\n";
 

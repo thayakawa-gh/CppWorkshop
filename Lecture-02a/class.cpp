@@ -2,9 +2,11 @@
 #include <iostream>
 #include <format>
 
+
 class Basetrack
 {
 public:
+	// ãƒ¡ãƒ³ãƒå¤‰æ•°
 	int pl;
 	int64_t rawid;
 	int ph;
@@ -14,12 +16,13 @@ public:
 
 std::string FormatBasetrack(const Basetrack& bt)
 {
-	return std::format("{:0>3} {:<10} {:<6} {:<7.4f} {:<7.4f} {:<9.1f} {:<9.1f}", bt.pl, bt.rawid, bt.ph, bt.ax, bt.ay, bt.x, bt.y);
+	return std::format("{:0>3} {:>10} {:>6} {:>7.4f} {:>7.4f} {:>9.1f} {:>9.1f}\n",
+					   bt.pl, bt.rawid, bt.ph, bt.ax, bt.ay, bt.x, bt.y);
 }
 
 int main()
 {
-	// Basetrack‚Ì‰Šú‰»
+	// Basetrackã®åˆæœŸåŒ–
 	Basetrack bt1;
 	bt1.pl = 25;
 	bt1.rawid = 12345;
@@ -32,11 +35,11 @@ int main()
 
 	std::cout << FormatBasetrack(bt1);
 
-	// ‰Šú‰»ƒŠƒXƒg‚ğg‚Á‚Ä‰Šú‰»
-	Basetrack bt2{ 25, 12345, 220142, 0.2446, -1.5907, 12605.2, 190451.0, 0.0 };
+	// åˆæœŸåŒ–ãƒªã‚¹ãƒˆã‚’ä½¿ã£ã¦åˆæœŸåŒ–
+	Basetrack bt2{ 103, 67890, 290301, -0.3567, -2.2021, 1194581.8, 60312.7, 0.0 };
 	std::cout << FormatBasetrack(bt2);
 
-	// vector‚ÉBasetrack‚ğŠi”[
+	// vectorã«Basetrackã‚’æ ¼ç´
 	std::vector<Basetrack> btlist;
 	btlist.push_back(bt1);
 	btlist.push_back(bt2);
@@ -46,7 +49,7 @@ int main()
 	}
 }
 
-/* –â‘è
- 1. posArawidAphAaxAay‚ğƒƒ“ƒo•Ï”‚Æ‚µ‚Ä‚ÂMicrotrackŒ^‚ğì‚Á‚Ä‚İ‚Ü‚µ‚å‚¤B
- 2. ƒNƒ‰ƒX‚Íƒƒ“ƒo•Ï”‚Æ‚µ‚ÄƒNƒ‰ƒXŒ^‚ğ‚Â‚±‚Æ‚à‚Å‚«‚Ü‚·BBasetrackƒNƒ‰ƒXŒ^‚ÉAMicrotrackŒ^‚Ìƒƒ“ƒo•Ï”2ŒÂ‚ğ’Ç‰Á‚µ‚Ä‚İ‚Ü‚µ‚å‚¤B
+/* å•é¡Œ
+ 1. posã€rawidã€phã€axã€ayã‚’ãƒ¡ãƒ³ãƒå¤‰æ•°ã¨ã—ã¦æŒã¤Microtrackå‹ã‚’ä½œã£ã¦ã¿ã¾ã—ã‚‡ã†ã€‚
+ 2. ã‚¯ãƒ©ã‚¹ã¯ãƒ¡ãƒ³ãƒå¤‰æ•°ã¨ã—ã¦ã‚¯ãƒ©ã‚¹å‹ã‚’æŒã¤ã“ã¨ã‚‚ã§ãã¾ã™ã€‚Basetrackã‚¯ãƒ©ã‚¹å‹ã«ã€Microtrackå‹ã®ãƒ¡ãƒ³ãƒå¤‰æ•°2å€‹ã‚’è¿½åŠ ã—ã¦ã¿ã¾ã—ã‚‡ã†ã€‚
 */
