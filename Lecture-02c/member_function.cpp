@@ -4,7 +4,7 @@
 class Basetrack
 {
 public:
-	Basetrack() = default;
+	Basetrack() = default; //defaultとすると、コンパイラがデフォルトコンストラクタを自動生成する。
 	Basetrack(int pl_, int64_t rawid_, int ph_, double ax_, double ay_, double x_, double y_, double z_)
 		: pl(pl_), rawid(rawid_), ph(ph_), ax(ax_), ay(ay_), x(x_), y(y_), z(z_)
 	{}
