@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{bf75b321-9a8e-4acd-9b18-0dbf48f769fd}</ProjectGuid>
-    <RootNamespace>Answer02</RootNamespace>
+    <ProjectGuid>{217810f2-3a52-4001-9826-3329cee90314}</ProjectGuid>
+    <RootNamespace>format</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -129,7 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="answer_vec.cpp" />
+    <ClCompile Include="format.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
