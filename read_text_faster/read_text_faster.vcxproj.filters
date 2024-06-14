@@ -7,8 +7,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="write_text.cpp">
+    <ClCompile Include="read_text_faster.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="text.txt" />
   </ItemGroup>
 </Project>

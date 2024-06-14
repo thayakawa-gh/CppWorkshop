@@ -12,8 +12,13 @@
  * ++it  ...  itを1個次の要素へ移動させます。
  * --it  ...  itを1個前の要素へ移動させます。
  * int x = *it  ...  イテレータが指し示している要素の値を取得します。
+ * *it = 4 ... 代入も可能です※。
 
  イテレータを使って要素を一つ一つ参照していくことを、一般に走査(traverse)と呼びます。
+
+ ※イテレータには上述のような通常のiteratorと、値の変更ができないconst_iteratorがあります。
+ もしvectorがconst（ポインタと参照の回で扱います）の場合、begin()、end()はstd::vector<int>::const_iteratorを返します。
+ const_iteratorの場合は、*it = 5のような代入はできません。
 */
 int main()
 {

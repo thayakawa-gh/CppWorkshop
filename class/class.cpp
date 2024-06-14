@@ -2,10 +2,14 @@
 #include <iostream>
 #include <format>
 
+/*
+ クラスとは、ややかみ砕きすぎた言い方ですが、色々な変数を一纏めにして、新しい型にしたものです。
+ 例えばBasetrackの情報を扱うとき、PL番号、ID、PH、角度、座標など様々な変数が必要になります。これらを全て個別に扱うのはとても面倒です。
+ しかし、Basetrackクラスを作ってしまえば、これらの変数をBasetrack型の変数として一括管理できます。
+*/
 class Basetrack
 {
 public:
-	// メンバ変数
 	int pl;
 	int64_t rawid;
 	int ph;

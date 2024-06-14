@@ -17,7 +17,7 @@
   挿入				-												vec.insert(vec.begin() + 3, 10)
   部分削除			-												vec.erase(vec.begin() + 3)
   全要素削除			-												vec.clear()
- */
+*/
 
 int main()
 {

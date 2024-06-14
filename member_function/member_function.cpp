@@ -4,22 +4,32 @@
 class Basetrack
 {
 public:
-	Basetrack() = default; //default‚Æ‚·‚é‚ÆAƒRƒ“ƒpƒCƒ‰‚ªƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğ©“®¶¬‚·‚éB
+	/*
+	 = defaultã¨ã™ã‚‹ã¨ã€ã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ãŒå„ç¨®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚„ä»£å…¥æ¼”ç®—å­ã‚’è‡ªå‹•ç”Ÿæˆã—ã¾ã™ã€‚
+	 ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ/ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€ã‚³ãƒ”ãƒ¼ä»£å…¥æ¼”ç®—å­ã¯defaultæŒ‡å®šã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚
+	 ãŸã ã—ã€ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã¯å…¨ãƒ¡ãƒ³ãƒå¤‰æ•°ã‚’ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã§åˆæœŸåŒ–ã™ã‚‹ã®ã¿ã€
+	 ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿/ä»£å…¥æ¼”ç®—å­ã¯å…¨ãƒ¡ãƒ³ãƒå¤‰æ•°ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹ã®ã¿ã€ã¨ã€æ¥µã‚ã¦å˜ç´”ãªæŒ™å‹•ã«ãªã‚‹ã®ã§ã€
+	 è¤‡é›‘ãªå‡¦ç†ã‚’ã—ãŸã„å ´åˆã¯è‡ªåˆ†ã§å®šç¾©ã—ã¾ã—ã‚‡ã†ã€‚
+	*/
+	Basetrack() = default;
 	Basetrack(int pl_, int64_t rawid_, int ph_, double ax_, double ay_, double x_, double y_, double z_)
 		: pl(pl_), rawid(rawid_), ph(ph_), ax(ax_), ay(ay_), x(x_), y(y_), z(z_)
 	{}
+	Basetrack(const Basetrack& bt) = default;
+	Basetrack& operator=(const Basetrack& bt) = default;
+	~Basetrack() = default;
 
-	double GetRadialAngle() const //<-- const‚Íuƒƒ“ƒo•Ï”‚ğ•ÏX‚µ‚È‚¢v‚Æ‚¢‚¤ˆÓ–¡
+	double GetRadialAngle() const //<-- constã¯ã€Œãƒ¡ãƒ³ãƒå¤‰æ•°ã‚’å¤‰æ›´ã—ãªã„ã€ã¨ã„ã†æ„å‘³
 	{
 		return std::sqrt(ax * ax + ay * ay);
-		//return std::hypot(ax, ay);‚Å‚à‚æ‚¢B
+		//return std::hypot(ax, ay);ã§ã‚‚ã‚ˆã„ã€‚
 	}
 
-	// éŒ¾‚Æ’è‹`‚ğ•ª‚¯‚½‚¢ê‡B
+	// å®£è¨€ã¨å®šç¾©ã‚’åˆ†ã‘ãŸã„å ´åˆã€‚
 	int GetPH() const;
 	int GetVPH() const;
 
-	void SetAngle(double ax_, double ay_) //<-- ƒƒ“ƒo•Ï”‚ğ•ÏX‚·‚é‚Ì‚Åconst‚Í‚Â‚¯‚È‚¢
+	void SetAngle(double ax_, double ay_) //<-- ãƒ¡ãƒ³ãƒå¤‰æ•°ã‚’å¤‰æ›´ã™ã‚‹ã®ã§constã¯ã¤ã‘ãªã„
 	{
 		ax = ax_;
 		ay = ay_;
@@ -32,8 +42,8 @@ public:
 	double x, y, z;
 };
 
-// ƒNƒ‰ƒX’è‹`“à‚Å‚ÍéŒ¾‚Ì‚İ‚É‚µ‚ÄA’è‹`‚ğƒNƒ‰ƒXƒXƒR[ƒv‚ÌŠO‘¤‚É‘‚­‚±‚Æ‚à‚Å‚«‚éB
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚à“¯—lB
+// ã‚¯ãƒ©ã‚¹å®šç¾©å†…ã§ã¯å®£è¨€ã®ã¿ã«ã—ã¦ã€å®šç¾©ã‚’ã‚¯ãƒ©ã‚¹ã‚¹ã‚³ãƒ¼ãƒ—ã®å¤–å´ã«æ›¸ãã“ã¨ã‚‚ã§ãã‚‹ã€‚
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚‚åŒæ§˜ã€‚
 
 int Basetrack::GetPH() const
 {
@@ -46,7 +56,7 @@ int Basetrack::GetVPH() const
 
 int main()
 {
-	// bt1‚ğ‰Šú‰»Bˆø”‚ ‚è‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ªŒÄ‚Î‚ê‚éB
+	// bt1ã‚’åˆæœŸåŒ–ã€‚å¼•æ•°ã‚ã‚Šã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãŒå‘¼ã°ã‚Œã‚‹ã€‚
 	Basetrack bt1(30, 12345, 250128, -0.1454, 2.6841, 235616.1, 96732.4, 0.0);
 
 	bt1.SetAngle(bt1.ax * 0.951, bt1.ay * 0.951);
@@ -56,7 +66,7 @@ int main()
 	std::cout << std::format("VPH: {}\n", bt1.GetVPH());
 }
 
-/* –â‘è
- Lecture-02aA02b‚Åì¬‚µ‚½Microtrackî•ñ‚ğ‚ÂBasetrackƒNƒ‰ƒX‚Ì’†‚ÉAbase-microŠp“x·‚ğŒvZ‚µ‚Ä•Ô‚·ŠÖ”‚ğ’Ç‰Á‚µ‚Ä‚İ‚Ü‚µ‚å‚¤B
- ax‚ÆayA‰Â”\‚È‚çradialAlateral‚»‚ê‚¼‚ê‚ğB
+/* å•é¡Œ
+ Lecture-02aã€02bã§ä½œæˆã—ãŸMicrotrackæƒ…å ±ã‚’æŒã¤Basetrackã‚¯ãƒ©ã‚¹ã®ä¸­ã«ã€base-microè§’åº¦å·®ã‚’è¨ˆç®—ã—ã¦è¿”ã™é–¢æ•°ã‚’è¿½åŠ ã—ã¦ã¿ã¾ã—ã‚‡ã†ã€‚
+ axã¨ayã€å¯èƒ½ãªã‚‰radialã€lateralãã‚Œãã‚Œã‚’ã€‚
 */

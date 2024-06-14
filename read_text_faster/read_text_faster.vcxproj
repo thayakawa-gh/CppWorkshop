@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{17c78134-1c79-4662-9ed7-16c97f303693}</ProjectGuid>
-    <RootNamespace>readtext</RootNamespace>
+    <ProjectGuid>{6fd8f4d5-8d63-4411-b65b-3e28126535f3}</ProjectGuid>
+    <RootNamespace>readtextfaster</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -129,7 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="read_text.cpp" />
+    <ClCompile Include="read_text_faster.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="text.txt" />
