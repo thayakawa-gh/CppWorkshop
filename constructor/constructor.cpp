@@ -44,20 +44,20 @@ class Basetrack
 {
 public:
 	Basetrack()
-		: pl(0), rawid(0), ph(0), ax(0.0), ay(0.0), x(0.0), y(0.0), z(0.0)//mtを明示的に初期化しない場合、勝手にMicrotrackのデフォルトコンストラクタが呼ばれる。
+		: pl(0), rawid(0), ph(0), ax(0.0), ay(0.0), x(0.0), y(0.0), z(0.0)//mtを明示的に初期化しない場合、自動的にMicrotrackのデフォルトコンストラクタが呼ばれます。
 	{
 		std::cout << "basetrack default constructor" << std::endl;
 	}
 	Basetrack(int pl_, int64_t rawid_, int ph_, double ax_, double ay_, double x_, double y_, double z_)
-		: pl(pl_), rawid(rawid_), ph(ph_), ax(ax_), ay(ay_), x(x_), y(y_), z(z_)//mtを明示的に初期化しない場合、勝手にMicrotrackのデフォルトコンストラクタが呼ばれる。
+		: pl(pl_), rawid(rawid_), ph(ph_), ax(ax_), ay(ay_), x(x_), y(y_), z(z_)//mtを明示的に初期化しない場合、自動的にMicrotrackのデフォルトコンストラクタが呼ばれます。
 	{
 		std::cout << "basetrack constructor 1" << std::endl;
 	}
-	Basetrack(int pl, int64_t rawid, int ph, double ax, double ay, double x, double y, double z,
-		int pos_m1, int64_t rawid_m1, int ph_m1, double ax_m1, double ay_m1,
-		int pos_m2, int64_t rawid_m2, int ph_m2, double ax_m2, double ay_m2)
-		: pl(pl), rawid(rawid), ph(ph), ax(ax), ay(ay), x(x), y(y), z(z),
-		mt{ { pos_m1, rawid_m1, ph_m1, ax_m1, ay_m1 }, { pos_m2, rawid_m2, ph_m2, ax_m2, ay_m2 } }
+	Basetrack(int pl_, int64_t rawid_, int ph_, double ax_, double ay_, double x_, double y_, double z_,
+		int pos_m1_, int64_t rawid_m1_, int ph_m1_, double ax_m1_, double ay_m1_,
+		int pos_m2_, int64_t rawid_m2_, int ph_m2_, double ax_m2_, double ay_m2_)
+		: pl(pl_), rawid(rawid_), ph(ph_), ax(ax_), ay(ay_), x(x_), y(y_), z(z_),
+		mt{ { pos_m1_, rawid_m1_, ph_m1_, ax_m1_, ay_m1_ }, { pos_m2_, rawid_m2_, ph_m2_, ax_m2_, ay_m2_ } }
 	{
 		std::cout << "basetrack constructor 2" << std::endl;
 	}
@@ -88,7 +88,7 @@ public:
 		return *this;
 	}
 
-	// ムーブコンストラクタとムーブ代入演算子は概念がややこしいため、今回は省略する。
+	// ムーブコンストラクタとムーブ代入演算子は概念がややこしいため、今回は省略します。
 	// ムーブセマンティクスの回が来たらその時に。
 
 	int pl;
@@ -111,6 +111,10 @@ public:
  引数を持たないコンストラクタのことで、引数なしでインスタンスを生成するときに呼ばれます。
  例えばBasetrack bt;のように書くと、btはBasetrackクラスのデフォルトコンストラクタによって初期化されます。
 
+ * デストラクタ
+ インスタンスが破棄されるときに呼ばれる関数で、インスタンスの後始末を担っています。
+ Basetrack bt;のように宣言されたインスタンスは、定義されたスコープ（関数や{}で括られた範囲）を抜けるときに破棄され、デストラクタが呼ばれます。
+
  * 引数ありコンストラクタ
  何らかの引数を取り、それらからインスタンスを初期化するコンストラクタを指します。C++の正式な用語ではありません。
  Basetrack bt(30, 12345, 250128, -0.1454, 2.6841, 235616.1, 96732.4, 0.0);のように書くと、引数ありのコンストラクタが呼ばれます。
@@ -121,14 +125,14 @@ public:
  Basetrack bt2(bt);のようにすると、bt2はBasetrackクラスのコピーコンストラクタによって初期化されます。
  Basetrack bt2 = bt;と書いても同じです。
 
- * デストラクタ
- インスタンスが破棄されるときに呼ばれる関数で、インスタンスの後始末を担っています。
- Basetrack bt;のように宣言されたインスタンスは、定義されたスコープ（関数や{}で括られた範囲）を抜けるときに破棄され、デストラクタが呼ばれます。
-
  * コピー代入演算子
  コンストラクタではありませんが、似た働きをします。
  代入演算子は既に初期化されたインスタンスに新たなインスタンスを再代入するときに呼ばれます。
  Basetrack bt, bt2;が既にあるとして、bt = bt2;のようにすると、btにbt2の値がコピーされます。
+
+
+ 基本的にコンストラクタ、デストラクタ、代入演算子の中にはどのような処理を書いても構いません。プログラマーの裁量次第です。
+ 尤も、初期化や破棄の役割を逸脱する処理を書くのは止めておきましょう。プログラムが分かりにくくなりますし、バグの温床になります。
 
  引数ありのコンストラクタ以外は、コンパイラの自動生成を頼っても構いません。
  コピーコンストラクタやコピー代入演算子が未定義の場合、
@@ -138,32 +142,48 @@ public:
 */
 int main()
 {
-	// bt1を初期化。デフォルトコンストラクタが呼ばれる。
-	Basetrack bt1;
+	if (true)
+	{
+		// bt1を初期化。デフォルトコンストラクタが呼ばれます。
+		Basetrack bt1;
+		// デフォルトコンストラクタで初期化されたため、全てのメンバ変数は0になっています。
+		std::cout << std::format("x: {}, y: {}, z: {}\n", bt1.x, bt1.y, bt1.z);
+		// if、for、関数などのスコープ{}を抜けるとき、デストラクタが呼ばれます。
+	}
 
-	std::cout << "----------------\n";
+	if (false)
+	{
+		// bt2を初期化。引数ありのコンストラクタが呼ばれます。
+		Basetrack bt2(30, 12345, 250128, -0.1454, 2.6841, 235616.1, 96732.4, 0.0);
+		// 引数ありのコンストラクタで初期化されたため、引数の値が代入されています。
+		std::cout << std::format("x: {}, y: {}, z: {}\n", bt2.x, bt2.y, bt2.z);
+	}
 
-	// bt1を初期化。引数ありのコンストラクタが呼ばれる。
-	Basetrack bt2(30, 12345, 250128, -0.1454, 2.6841, 235616.1, 96732.4, 0.0);
+	if (false)
+	{
+		// bt3の初期化。引数ありのコンストラクタが呼ばれます。
+		Basetrack bt3(30, 12345, 250128, -0.1454, 2.6841, 235616.1, 96732.4, 0.0,
+					  251, 123456, 130077, -0.1571, 2.5793,
+					  252, 123456, 120051, -0.1322, 2.8038);
 
-	std::cout << "----------------\n";
+		std::cout << "----------------" << std::endl;
 
-	// bt2を初期化。コピーコンストラクタによってbt1の値がコピーされる。
-	Basetrack bt3(bt2);
+		// bt2の初期化。コピーコンストラクタによってbt1の値がコピーされます。
+		Basetrack bt4(bt3);
 
-	std::cout << "----------------\n";
+		std::cout << "----------------" << std::endl;
 
-	// bt3にbt2の値を代入。代入演算子が呼ばれる。
-	bt3 = bt2;
+		// bt3にbt2の値を代入。代入演算子が呼ばれます。
+		bt4 = bt3;
+	}
 
-	std::cout << "----------------\n";
+	std::cout << "----------------" << std::endl;
 
-	Basetrack bt4(30, 12345, 250128, -0.1454, 2.6841, 235616.1, 96732.4, 0.0,
-		251, 123456, 130077, -0.1571, 2.5793,
-		252, 123456, 120051, -0.1322, 2.8038);
-
-	std::cout << "----------------\n";
-
-	// main関数を抜けるとき、用済みとなったbt1～bt4のデストラクタが呼ばれる。
 	return 0;
 }
+
+/* 問題
+ 1. Basetrackクラスにradial angleを格納しておくためのdouble型変数を追加し、
+    コンストラクタの引数ax、ayからradial angleを計算して初期化するようコンストラクタを修正してみましょう。
+	なお、radial angleは一般的にsqrt(ax * ax + ay * ay)で計算できます。
+*/

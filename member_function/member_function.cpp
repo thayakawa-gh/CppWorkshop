@@ -19,15 +19,21 @@ public:
 	Basetrack& operator=(const Basetrack& bt) = default;
 	~Basetrack() = default;
 
-	double GetRadialAngle() const //<-- constは「メンバ変数を変更しない」という意味
+	// メンバ関数の定義
+	double GetRadAng() const //<-- constは「メンバ変数を変更しない」という意味
 	{
+		// std::sqrtは平方根を計算する関数
 		return std::sqrt(ax * ax + ay * ay);
-		//return std::hypot(ax, ay);でもよい。
 	}
 
-	// 宣言と定義を分けたい場合。
-	int GetPH() const;
-	int GetVPH() const;
+	int GetPH() const
+	{
+		return ph / 10000;
+	}
+	int GetVPH() const
+	{
+		return ph % 10000;
+	}
 
 	void SetAngle(double ax_, double ay_) //<-- メンバ変数を変更するのでconstはつけない
 	{
@@ -42,17 +48,26 @@ public:
 	double x, y, z;
 };
 
-// クラス定義内では宣言のみにして、定義をクラススコープの外側に書くこともできる。
-// コンストラクタも同様。
+/*
+ #### メンバ関数
+ クラスの面白いところは、クラスそれ自体に関数を持たせられる、ということです。
+ 例えば、Basettrackクラスの変数btがあるとしましょう。
 
-int Basetrack::GetPH() const
-{
-	return (int)(ph / 10000);
-}
-int Basetrack::GetVPH() const
-{
-	return (int)(ph % 10000);
-}
+ Basetrack bt;
+
+ この変数btはidやax、ayなどの変数を持っていますが、radial angleは持っていません。
+ constrcutorで問題に出したように、メンバ変数として予め持たせてしまうのも手ですが、
+ 追加した変数分だけ余計にメモリを消費しますし、不必要なときでも無意味に計算してしまいます。
+ かといって、例えばbtからradial angleを計算したい場合、
+ double rad = std::sqrt(bt.ax * bt.ax + bt.ay * bt.ay);
+ なんて毎回書くのはちょっと面倒です。書き間違えて致命的なバグを生むかもしれません。
+ これを解決する良い方法があります。それがメンバ関数です。
+
+ メンバ関数は、クラス内で定義された関数で、クラスの変数にアクセスすることができます。
+ つまり、BasetrackクラスにGetRadAng()という関数を追加して、radial angleを計算する処理を関数にまとめてしまうことができます。
+ double rad = bt.GetRadAng();
+
+*/
 
 int main()
 {
@@ -61,12 +76,14 @@ int main()
 
 	bt1.SetAngle(bt1.ax * 0.951, bt1.ay * 0.951);
 
-	std::cout << std::format("Radial angle: {}\n", bt1.GetRadialAngle());
+	std::cout << std::format("Radial angle: {}\n", bt1.GetRadAng());
 	std::cout << std::format("PH: {}\n", bt1.GetPH());
 	std::cout << std::format("VPH: {}\n", bt1.GetVPH());
 }
 
 /* 問題
- Lecture-02a、02bで作成したMicrotrack情報を持つBasetrackクラスの中に、base-micro角度差を計算して返す関数を追加してみましょう。
- axとay、可能ならradial、lateralそれぞれを。
+ Lecture-02a、02bで作成したMicrotrack情報を持つBasetrackクラスの中に、
+ basetrack-microtrack間のax、ayそれぞれの角度差を計算して返す関数を追加してみましょう。
+ もし可能なら、radial、lateral角度差も実装してみましょう。
+ Microtrackは2本あるので、どちらとの角度差を取得するかを引数指定できたりするとなお良いですね。
 */

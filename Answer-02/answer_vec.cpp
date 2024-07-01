@@ -57,7 +57,7 @@ int main()
 
 	// iterator 問題2
 	std::vector<int> v4(30);
-	i = 0;
+	i = 1;
 	for (int& x : v4)
 	{
 		x = i;

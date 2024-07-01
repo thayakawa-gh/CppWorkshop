@@ -7,22 +7,29 @@
 
 int main()
 {
-	// read_textと同じように、ファイルを読み込んでいます。
-	std::ifstream ifs("text.txt");
-	if (!ifs)
+	// std::ofstreamを使ってテキストファイルに書き込むことができます。
+	std::ofstream ofs("output.txt");
+	if (!ofs)
 	{
 		std::cerr << "Failed to open file." << std::endl;
 		return 1;
 	}
 
-	int a, b;
-	double c, d;
-	std::string buf;
-
-	while (std::getline(ifs, buf))
+	for (int line = 1; line < 10; ++line)
 	{
-		std::istringstream iss(buf);
-		iss >> a >> b >> c >> d;
-		std::cout << std::format("a = {}, b = {}, c = {}, d = {}\n", a, b, c, d);
+		int a = line * 10 + 1;
+		int b = line * 10 + 2;
+		double c = line + 0.3;
+		double d = line + 0.4;
+		ofs << a << " " << b << " " << c << " " << d << "\n";
+	}
+
+	for (int line = 10; line < 20; ++line)
+	{
+		int a = line * 10 + 1;
+		int b = line * 10 + 2;
+		double c = line + 0.3;
+		double d = line + 0.4;
+		std::print(ofs, "{:>4} {:>4} {:>6.2f} {:>6.2f}\n", a, b, c, d);
 	}
 }

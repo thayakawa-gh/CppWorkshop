@@ -130,6 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="answer_class.cpp" />
+    <ClCompile Include="answer_constructor.cpp" />
     <ClCompile Include="answer_member_function.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
