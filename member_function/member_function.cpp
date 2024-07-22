@@ -86,4 +86,10 @@ int main()
  basetrack-microtrack間のax、ayそれぞれの角度差を計算して返す関数を追加してみましょう。
  もし可能なら、radial、lateral角度差も実装してみましょう。
  Microtrackは2本あるので、どちらとの角度差を取得するかを引数指定できたりするとなお良いですね。
+
+ ちなみに、radial、lateralの角度差の定義は以下の通りです。
+ ax、ayはBasetrackの、max、mayはMicrotrackの角度とします。
+ denom = std::sqrt(ax * ax + ay * ay);
+ radial    :((max - ax) * ax + (may - ay) * ay) / denom;
+ lateral   :((max - ax) * ay - (may - ay) * ax) / denom;
 */
