@@ -1,90 +1,160 @@
 #include <iostream>
 #include <vector>
+#include <format>
 
-void func(int& x)
-{
-	x = 4;
-}
-void const_func(const int& x)
-{
-	// x = 5; const参照型はこうした変更ができない。
-}
+// ######ポインタ型について######
+// ポインタ型は、参照型と同じく、ある変数を指し示す型です。指し示す先の変数と値が共有され、一方を編集すればもう一方も変化します。
+// ただし、参照型よりもずっと多くのことができ、その分危険を伴います。
 
-// 良くない例。vecのコピーを作っているので、コピーのコストがかかるし、メモリも無駄に使う。
-double sum_from_copy(std::vector<double> vec)
-{
-	double s = 0;
-	for (auto v : vec)
-	{
-		s += v;
-	}
-	return s;
-}
-// 良い例。vecへの参照を受け取っているので、コピーのコストがかからないし、メモリも無駄に使わない。
-double sum_from_reference(const std::vector<double>& vec)
-{
-	double s = 0;
-	for (auto v : vec)
-	{
-		s += v;
-	}
-	return s;
-}
+// ポインタ型は、メモリ上のアドレスを指す8バイト（64bit用ビルドの場合）整数型の変数です。
+// コンピュータのメモリは1バイトごとにアドレスが割り当てられています。
+// 何か変数を用意すると、それはメモリ上のどこかに変数のスペースが確保されるので、その変数のアドレスが存在します。
+// そのアドレスの値を格納する変数がポインタです。
+// 例えばdouble型変数のアドレスを格納するポインタ型変数は、「double*」のようにアスタリスクを用いて表現されます。
+// double* x; ... double型の変数を指し示すポインタ型変数xを宣言しています。
+// 
+// ポインタは変数のアドレスを格納するものなので、x = a;のように単純に代入することはできません。aをアドレスに変換する必要があります。それには「&」を使います。
+// double a = 3.14;
+// x = &a; ... 「&a」はaのアドレスを表し、double型変数へのポインタxにaのアドレスを代入しています。
+//
+// ポインタが指し示す先の変数にアクセスするには、「*」を使います。
 
-// 参照型を返す関数も定義できる。x==0ならvec1、そうでなければvec2を返す。
-const std::vector<double>& select(int x, const std::vector<double>& vec1, const std::vector<double>& vec2)
+// 実は参照型も、本質はポインタと同じくアドレスを格納するものです。コンパイラから見れば参照もポインタも大して変わりません。
+// ポインタと参照の違いは
+// 1. ポインタは指し示す先を変更できるが、参照は一度指し示した先を変更できない。
+// 2. ポインタはnullptr（何も指していない状態）を持つことができるが、参照はできない。
+// 3. ポインタは参照先にアクセスするときに「*」をつける必要がある。
+// 4. ポインタは単なる整数値のため、アドレスに対する+、-、大小比較などの演算が可能。ただし危険を伴うため、安易に使わないほうがいい。
+// 5. ポインタはstd::vectorなどに格納できる。参照型はできない。
+// などが挙げられます。総じて、参照型は、ポインタ型の機能を制限し、比較的安全に使えるようにしたものとも言えます。
+
+// 関数の引数などに使うときは参照型のほうが&や*を使わずに済むので直感的ですし、安全でしょう。
+// クラスのメンバ変数として持たせたり、std::vectorなどの配列に持たせたりする場合は、参照ではなくポインタを使いましょう。
+
+class Basetrack
 {
-	if (x == 0) return vec1;
-	else return vec2;
-}
+public:
+	int pl;
+	int64_t rawid;
+	int ph;
+	double ax, ay;
+	double x, y, z;
+};
+
+class BasetrackPair
+{
+public:
+	BasetrackPair() : ptr{ nullptr, nullptr } {}
+	BasetrackPair(Basetrack* bt1, Basetrack* bt2) : ptr{ bt1, bt2 } {}
+
+	Basetrack* ptr[2];// ポインタ型の配列。ptr[0]、ptr[1]がそれぞれ2本のBasetrack型変数へのアドレスを持っています。
+};
 
 int main()
 {
 	int a = 1;
 	int b = 10;
 
-	// ポインタ型。C言語のポインタと同じ。
+	// ポインタ型は、変数のアドレスを指す型です。
+	// 変数のアドレスを取得するには、変数名の前に&をつけます。「&a」でaのアドレスという意味になります。
 	int* x = &a;
-	*x = 2;
-	std::cout << a << std::endl;
+	std::cout << x << std::endl; // 実際のアドレスが表示されます。
+
+	// ポインタが指し示す先の変数にアクセスするには、ポインタの前に*をつけます。
+	std::cout << *x << std::endl; // 変数aの値、すなわち1が表示されます。
+	*x = 2; // ポインタを通じて変数aの値を変更することができます。
+	std::cout << a << std::endl; // 2が表示されます。
+
+	// ポインタ型は指し示す先を変更することができます。これは参照型には不可能な操作です。
+	// 今xはaを指していますが、以下ではその先をbに変更しています。
 	x = &b;// xがbを指すように変更する。
-	std::cout << b << std::endl;
+	std::cout << *x << std::endl; // 10が表示されます。
+
+	int& refx = *x;// ポインタを参照型に変換することもできます。今、x、refxは同時にbを指しています。
+	int* ptrx = &refx;//逆に、参照型からポインタ型に変換することもできます。
+
+
+	// nullptrは特別なアドレスで、「何も指していない」ことを意味します。整数値の0みたいなものです。
 	x = nullptr;// NULLを代入することで、何の変数も指し示していない空のポインタの状態にできる。
-
-	// 参照型。本質的にはポインタと同じだが、「*」を使う必要がないこと、NULLを扱えないこと、初期化後に再代入できないことなどの違いがある。
-	int& y = a;
-	y += 3;
-	std::cout << a << std::endl;
-	// y = &b; 参照型はこうした再代入ができない。
-	// y = nullptr; 参照型はNULLを扱えない。
-
-	// 参照型を引数に取る関数。aの値はfuncによって変更されうる。
-	func(a);
-	std::cout << a << std::endl;
-
-	// const参照型を引数に取る関数。aの値はconst_funcによって変更されない（プログラマが悪意ある使い方をしない限り）。
-	const_func(a);
-
-
-	std::vector<double> vec1{ 1.0, 2.0, 3.0, 4.0, 5.0 };
-
-	// sum_from_copyとsum_from_referenceの結果はどちらも同じだが、速度とメモリ使用量が異なる。
-	// 参照型を使うことで、関数の引数に大きなオブジェクトを渡す際に、コピーを作らずに済む。
-	// int、doubleなどの基本型についてはコピーのコストは無視できるので参照で渡す必要はないが、
-	// std::vectorやstd::stringなどの大きなオブジェクトについてはコピーのコストが大きいため、参照渡しが推奨される。
-	std::cout << sum_from_copy(vec1) << std::endl;
-	std::cout << sum_from_reference(vec1) << std::endl;
-
-
-	std::vector<double> vec2{ 6.0, 7.0, 8.0, 9.0, 10.0 };
-
-	// selectによってvec1かvec2のどちらかが返され、それを参照型で受け取る。
-	// selectの引数は参照型、戻り値も参照型なので、vec1やvec2のコピーは一切発生しない。
-	const std::vector<double>& vec_ref = select(0, vec1, vec2);
-	// vec_refはconst参照型なので、vec_refの要素を変更することはできない。
-	// このとき、range-based for loopはdoubleかconst double&で受け取らなければならない。double&にはできない。
-	for (const double& x : vec_ref)
+	// std::cout << *x << std::endl; // エラー。nullptrは何も指していないので、指し示す先へアクセスしてはいけません。バグります。
+	if (x == nullptr)
 	{
-		std::cout << x << " ";
+		// nullptrかどうか（有効な値が入っているかどうか）で条件分岐することは、よく行われます。
+		std::cout << "x is nullptr : " << x << std::endl;
 	}
+	else
+	{
+		std::cout << "x is not nullptr : " << *x << std::endl;
+	}
+
+	const int* y = &a;// constポインタはconst参照と同様に、指し示す先の変数の値を変更できません。
+	// *y = 3; // エラー。constポインタは指し示す先の変数の値を変更できません。
+
+	// 実はint* constのように「*」記号よりも後にconstを付けると意味が変わるのですが、ここでは扱いません。
+	// 配列の先頭要素を指すポインタ、ダブルポインタ（ポインタへのポインタ）、ポインタに対する加減算などの演算も、
+	// ややこしい上に使い道が限定されているので扱いません。とはいえ、高度なプログラムを書くときには必要になることもあります。
+
+
+	// クラス型へのポインタも作れます。
+	Basetrack bt1{ 25, 12345, 220142, 0.2446, -1.5907, 12605.2, 190451.0, 0.0 };
+	Basetrack* z = &bt1;
+	std::cout << z->pl << std::endl; // 「->」という演算子を使って、クラス型のポインタからメンバ変数にアクセスできます。
+	std::cout << (*z).pl << std::endl; // 「*z」とすればBasetrackの実体にアクセスできるので、こんな書き方もできますが、少し冗長ですね。
+
+	// ポインタ型の一つ重要な使い方は、std::vectorや、他のクラス型などに持たせることです。
+	Basetrack bt2{ 25, 67890, 200056, 0.2894, -1.6630, 12602.3, 190453.1, 0.0 };
+	std::vector<const Basetrack*> btrefs;
+	btrefs.push_back(&bt1);
+	btrefs.push_back(&bt2);
+	std::cout << btrefs[0]->pl << std::endl;
+
+	BasetrackPair btpair(&bt1, &bt2);
+	//ptr[0]、ptr[1]がそれぞれbt1、bt2を指しているので、それぞれの座標を取得できます。
+	std::cout << std::format("dx = {}", btpair.ptr[0]->x - btpair.ptr[1]->x) << std::endl;
+
 }
+
+/*
+ 問題
+ まずはbasetracks.txtを読み込み、std::vector<Basetrack>に格納してください。
+ その後、このstd::vector<Basetrack>の中から、xy座標の差がそれぞれ500um以内、角度差が0.1以内のBasetrackのペアを全て列挙し、
+ std::vector<BasetrackPair>に格納してください。
+ ただし、同じBasetrackのペアが重複してはいけません。
+
+ 要するに、極めて素朴なGhostピックアップ機能の実装です。
+ （……普通Ghost filterでは500umだの0.1radだのという巨大な閾値を使うことはないのですが、
+ basetracks.txtにはGhostらしいGhostがいなかったので、無理やりペアを作るために巨大な値を使っています。）
+ もしピックアップされたGhostを元のstd::vector<Basetrack>から削除してそれを出力すれば、簡素なGhost filterになります。
+ 尤も、二重ループによる総当たり判定は莫大な計算時間を要するため、実際にはもっと工夫が必要です。
+
+
+ ヒント
+ std::vector<Basetrack> bts;
+ ...btsにBasetrackを格納する処理...
+ std::vector<BasetrackPair> btpairs;
+ size_t size = bts.size();
+ for (size_t i = 0; i < size; ++i)
+ {
+	for (size_t j = i + 1; j < size; ++j)
+ 	{
+		...bts[i]とbts[j]が条件を満たすかどうかを判定し、btpairsに格納する処理...
+		ちなみに、std::abs(x)という関数でxの絶対値を取得できます。
+		std::abs(bts[i].x - bts[j].x) < 500.0のように判定すると記述量が減ってちょっと楽です。
+ 	}
+ }
+
+
+
+ 別の書き方として、i,jではなくイテレータを使うこともできます。記述量が増えますが、パフォーマンスはこちらのほうが若干良いと思います。
+ for (std::vector<Basetrack>::iterator it1 = bts.begin(); it1 != bts.end(); ++it1)
+ {
+	for (std::vector<Basetrack>::iterator it2 = it1 + 1; it2 != bts.end(); ++it2)
+ 	{
+		...(*it1)と(*it2)が条件を満たすかどうかを判定し、btpairsに格納する処理...
+		イテレータはポインタと似たような使い方で、次のように「*」や「->」などでアクセスできます。
+		double dx = it1->x - it2->x;
+		さらに、ややこしいですが、イテレータの指す要素のアドレスを得るには、次のように*と&を組み合わせる必要があります。
+		Basetrack* ptr1 = &(*it1);
+ 	}
+ }
+*/

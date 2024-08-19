@@ -15,7 +15,7 @@ int main()
 	{
 		// ファイルを開くのに失敗した場合は、エラーメッセージを出力して終了します。
 		std::cerr << "Failed to open file." << std::endl;
-		return 1;
+		return -1;
 	}
 
 	int a, b;

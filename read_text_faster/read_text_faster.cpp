@@ -58,5 +58,6 @@ int main()
 
 /*
  問題2
- 問題1ではstd::istringstreamを使ってbasetrack.txtを読み込みましたが、これをParse関数に書き直してみましょう。
+ 問題1ではstd::istringstreamを使ってbasetrack.txtを読み込みましたが、
+ これをParse関数に書き直してみましょう。
 */
