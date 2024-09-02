@@ -119,14 +119,16 @@ int main()
 /*
  問題
  まずはbasetracks.txtを読み込み、std::vector<Basetrack>に格納してください。
- その後、このstd::vector<Basetrack>の中から、xy座標の差がそれぞれ500um以内、角度差が0.1以内のBasetrackのペアを全て列挙し、
+ その後、このstd::vector<Basetrack>の中から、
+ xy座標の差がそれぞれ500um以内、角度差が0.1以内のBasetrackのペアを全て列挙し、
  std::vector<BasetrackPair>に格納してください。
  ただし、同じBasetrackのペアが重複してはいけません。
 
  要するに、極めて素朴なGhostピックアップ機能の実装です。
  （……普通Ghost filterでは500umだの0.1radだのという巨大な閾値を使うことはないのですが、
  basetracks.txtにはGhostらしいGhostがいなかったので、無理やりペアを作るために巨大な値を使っています。）
- もしピックアップされたGhostを元のstd::vector<Basetrack>から削除してそれを出力すれば、簡素なGhost filterになります。
+ もしピックアップされたGhostを元のstd::vector<Basetrack>から削除してそれを出力すれば、
+ 簡素なGhost filterになります。
  尤も、二重ループによる総当たり判定は莫大な計算時間を要するため、実際にはもっと工夫が必要です。
 
 

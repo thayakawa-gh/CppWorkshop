@@ -26,7 +26,7 @@ int CountPH20(const std::vector<Basetrack>& btlist)
 	int count = 0;
 	for (const Basetrack& bt : btlist)
 	{
-		if (int(bt.ph / 10000) >= 0) ++count;
+		if (int(bt.ph / 10000) >= 20) ++count;
 	}
 	return count;
 }
@@ -35,10 +35,14 @@ void TransAffine(std::vector<Basetrack>& btlist, const AffineParam& aff)
 {
 	for (Basetrack& bt : btlist)
 	{
-		bt.x = bt.x * aff.a + bt.y * aff.b + aff.p;
-		bt.y = bt.x * aff.c + bt.y * aff.d + aff.q;
-		bt.ax = bt.ax * aff.a + bt.ay * aff.b;
-		bt.ay = bt.ax * aff.c + bt.ay * aff.d;
+		double x_ = bt.x * aff.a + bt.y * aff.b + aff.p;
+		double y_ = bt.x * aff.c + bt.y * aff.d + aff.q;
+		double ax_ = bt.ax * aff.a + bt.ay * aff.b;
+		double ay_ = bt.ax * aff.c + bt.ay * aff.d;
+		bt.x = x_;
+		bt.y = y_;
+		bt.ax = ax_;
+		bt.ay = ay_;
 	}
 }
 

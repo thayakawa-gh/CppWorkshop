@@ -7,11 +7,14 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="smart_pointer.cpp">
+    <ClCompile Include="answer_new_delete.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="linklets.txt" />
+    <ClCompile Include="answer_smart_pointer1.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="answer_smart_pointer2.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

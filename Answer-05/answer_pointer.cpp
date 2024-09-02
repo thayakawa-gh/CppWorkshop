@@ -51,8 +51,7 @@ int main()
 	{
 		for (size_t j = i + 1; j < size; ++j)
 		{
-			if (std::abs(bts[i].x - bts[j].x) > 500.0) continue;
-			if (std::abs(bts[i].y - bts[j].y) > 500.0) continue;
+			if (std::abs(bts[i].x - bts[j].x) > 500.0 && std::abs(bts[i].y - bts[j].y) > 500.0) continue;
 			if (std::abs(bts[i].ax - bts[j].ax) > 0.1) continue;
 			if (std::abs(bts[i].ay - bts[j].ay) > 0.1) continue;
 			btpairs.push_back(BasetrackPair{ &bts[i], &bts[j] });

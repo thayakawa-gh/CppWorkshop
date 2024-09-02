@@ -49,7 +49,7 @@
 
 void func(int& x)
 {
-	x = 4;
+	x = 5;
 }
 void const_func(const int& x)
 {
@@ -89,9 +89,11 @@ const std::vector<double>& select(int x, const std::vector<double>& vec1, const 
 int main()
 {
 	int a = 1;
+	int b = 3;
 
 	// 参照型。
 	int& x = a;
+	x = b;
 	x += 3;// yに何らかの操作を行うと、yの参照先であるaの値が変更されます。
 	std::cout << std::format("{} {}\n", a, x) << std::endl;// 4 4と表示されます。
 
