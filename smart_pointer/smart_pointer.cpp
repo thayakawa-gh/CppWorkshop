@@ -85,7 +85,8 @@ int main()
 	std::cout << std::format("sptr1->ax == {}, sptr2->ax == {}\n", sptr1->ax, sptr2->ax);
 
 	// std::shared_ptrは参照カウントという変数を持っています。これは、同じアドレスを指すstd::shared_ptrがいくつあるかを示すものです。
-	// 例えば、sptr1とsptr2が同じアドレスを指しているので、参照カウントはどちらも2です。use_count関数で参照カウントを取得できます。
+	// 例えば、sptr1とsptr2が同じアドレスを指しているので、参照カウントはどちらも2です。
+	// use_count関数で参照カウントを取得できます。
 	std::cout << std::format("sptr1.use_count() == {}, sptr2.use_count() == {}\n", sptr1.use_count(), sptr2.use_count());
 
 	// ここでsptr2の方をresetしてみます。するとsptr2はsptr1との共有が解消されnullptrになりますが、
@@ -99,6 +100,8 @@ int main()
 	sptr1.reset();
 	std::cout << std::format("sptr1.use_count() == {}, sptr2.use_count() == {}\n", sptr1.use_count(), sptr2.use_count());
 
+	// 参照カウントは、resetしたり、shared_ptrがスコープを抜けてデストラクタが呼ばれたりすることで減少します。
+	// 参照カウントが0になった時点で、初めてshared_ptrが内蔵するBasetrackのdeleteが行われるのです。
 
 	std::cout << "\n";
 }
