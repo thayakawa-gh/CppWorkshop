@@ -32,7 +32,7 @@ public:
 };
 
 
-int main()
+int main2()
 {
 	std::ifstream ifs("../smart_pointer/linklets.txt");
 	if (!ifs)

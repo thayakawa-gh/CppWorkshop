@@ -26,10 +26,7 @@ public:
 class BasetrackPair
 {
 public:
-	// Basetrack2本分の情報をヒープに確保して保有するクラス。
-	// new/deleteをコンストラクタ、デストラクタで呼び出しています。
 
-	BasetrackPair() : ptr{ nullptr, nullptr } {}
 	BasetrackPair(const Basetrack& bt1, const Basetrack& bt2)
 	{
 		ptr[0] = std::make_unique<Basetrack>(bt1);
@@ -46,13 +43,10 @@ public:
 	BasetrackPair& operator=(const BasetrackPair& other)
 	{
 		// thisは自分自身を指すポインタ。
-		// もしotherが自分自身であった場合、Basetrackを作り直すのは良くないので、その場合は何もせずに自分自身を返す。
+		// もしotherが自分自身であった場合、今回は生のポインタを使った場合と異なりバグにはなりませんが、
+		// Basetrackを作り直すのはヒープの再確保が発生して非効率なので、ここでreturnしたほうがよいでしょう。
 		if (this == &other) return *this;
 
-		// ptr[0]とptr[1]に入っているBasetrackの情報を削除する。これをしないとメモリリークするかもしれない。
-		ptr[0].reset();
-		ptr[1].reset();
-		// その後、otherのBasetrackの情報をコピーする。
 		ptr[0] = std::make_unique<Basetrack>(*other.ptr[0]);
 		ptr[1] = std::make_unique<Basetrack>(*other.ptr[1]);
 

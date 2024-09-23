@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <vector>
 
 class Basetrack
 {
@@ -17,8 +18,9 @@ class BasetrackPair
 public:
 	// Basetrack2本分の情報をヒープに確保して保有するクラス。
 	// new/deleteをコンストラクタ、デストラクタで呼び出しています。
-
-	BasetrackPair() : ptr{ nullptr, nullptr } {}
+	BasetrackPair()
+		: ptr{ nullptr, nullptr }
+	{}
 	BasetrackPair(const Basetrack& bt1, const Basetrack& bt2)
 	{
 		ptr[0] = new Basetrack(bt1);
@@ -32,8 +34,8 @@ public:
 	BasetrackPair(const BasetrackPair& other)
 	{
 		// Basetrackの情報を複製する場合。
-		ptr[0] = new Basetrack(*other.ptr[0]);
-		ptr[1] = new Basetrack(*other.ptr[1]);
+		if (other.ptr[0] != nullptr) ptr[0] = new Basetrack(*other.ptr[0]);
+		if (other.ptr[1] != nullptr) ptr[1] = new Basetrack(*other.ptr[1]);
 	}
 	// コピー代入演算子。
 	BasetrackPair& operator=(const BasetrackPair& other)
@@ -46,8 +48,8 @@ public:
 		delete ptr[0];
 		delete ptr[1];
 		// その後、otherのBasetrackの情報をコピーする。
-		ptr[0] = new Basetrack(*other.ptr[0]);
-		ptr[1] = new Basetrack(*other.ptr[1]);
+		if (other.ptr[0] != nullptr) ptr[0] = new Basetrack(*other.ptr[0]);
+		if (other.ptr[1] != nullptr) ptr[1] = new Basetrack(*other.ptr[1]);
 
 		// 最後に自分自身を返す。
 		return *this;
@@ -55,3 +57,18 @@ public:
 
 	Basetrack* ptr[2];
 };
+
+
+int main()
+{
+	std::vector<double*> ptrs(10, nullptr);
+
+	for (int i = 1; i <= 10; ++i)
+	{
+		ptrs[i] = new double(i);
+	}
+	for (int i = 1; i <= 10; ++i)
+	{
+		delete ptrs[i];
+	}
+}

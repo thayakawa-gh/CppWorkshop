@@ -7,7 +7,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="virtual_function.cpp">
+    <ClCompile Include="unique_ptr.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

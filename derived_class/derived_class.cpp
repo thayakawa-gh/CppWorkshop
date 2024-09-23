@@ -67,20 +67,49 @@ public:
  例えば、BasetrackSubsetクラスを継承してBasetrackFullクラスを作っています。
  BasetrackFullクラスはBasetrackSubsetクラスのメンバ変数やメンバ関数を引き継いており、それらを使用することができます。
  さらに新たにisgとzone、そしてMicrotrackSubset型のmtというメンバ変数、GetMicrotrack、GetDax/GetDayというメンバ関数を追加しています。
+ このとき、元となったBasetrackSubsetのことを基底クラス、新しく作ったBasetrackFullのことを派生クラスと呼びます。
+ （基底クラスは親クラス、派生クラスは子クラスとも呼ばれます。）
 */
 
 
 int main()
 {
-	BasetrackFull bt(25, 12345, 220142, 0.2446, -1.5907, 12605.2, 190451.0, 0.0, 0, 0);
+	BasetrackFull btfull(25, 12345, 220142, 0.2446, -1.5907, 12605.2, 190451.0, 0.0, 0, 0);
 	// BasetrackFullクラスはBasetrackSubsetクラスを継承しているので、BasetrackSubsetのメンバ変数やメンバ関数を使うことができます。
-	std::cout << std::format("pl = {}, rawid = {}, ra = {}\n", bt.pl, bt.rawid, bt.GetRadAng());
-	std::cout << std::format("ph = {}V{}\n", bt.GetPH(), bt.GetVol());
-	std::cout << std::format("lat = {}\n", bt.GetLatAng());
+	std::cout << std::format("pl = {}, rawid = {}, ra = {}\n", btfull.pl, btfull.rawid, btfull.GetRadAng());
+	std::cout << std::format("ph = {}V{}\n", btfull.GetPH(), btfull.GetVol());
+	std::cout << std::format("lat = {}\n", btfull.GetLatAng());
 	// BasetrackFullクラスで新たに定義したメンバ変数や関数も使えます。
-	std::cout << std::format("dax = {}, day = {}\n", bt.GetDax(0), bt.GetDay(0));
+	std::cout << std::format("dax = {}, day = {}\n", btfull.GetDax(0), btfull.GetDay(0));
 
 	// 当然ですが、BasetrackSubsetクラスはBasetrackFullクラスのメンバ変数やメンバ関数を使うことはできません。
-	BasetrackSubset bts(25, 12345, 220142, 0.2446, -1.5907, 12605.2, 190451.0, 0.0);
-	// std::cout << std::format("pl = {}, rawid = {}, ra = {}\n", bts.pl, bts.rawid, bts.GetRadAng());
+	BasetrackSubset btsub(25, 12345, 220142, 0.2446, -1.5907, 12605.2, 190451.0, 0.0);
+	// std::cout << std::format("pl = {}, rawid = {}, ra = {}\n", btsub.pl, btsub.rawid, btsub.GetRadAng());
+
+
+	// 面白いことに、派生クラスは基底クラスのポインタや参照に代入することもできます。
+	BasetrackSubset& btsub_ref = btfull;
+	std::cout << std::format("pl = {}, rawid = {}, ra = {}\n", btsub_ref.pl, btsub_ref.rawid, btsub_ref.GetRadAng());
+	BasetrackSubset* btsub_ptr = &btfull;
+	std::cout << std::format("pl = {}, rawid = {}, ra = {}\n", btsub_ptr->pl, btsub_ptr->rawid, btsub_ptr->GetRadAng());
+	// ただし、基底クラスの参照やポインタに代入している場合、そのままでは派生クラスのメンバにアクセスできません。
+	// btfull_refやbtfull_ptrはあくまでBasetrackSubsetであり、派生クラスではないものとして扱われます。
+	// std::cout << std::format("isg = {}\n", btfull_ref.isg); ... Compilation Error
+
+	// BasetrackSubsetからもう一度BasetrackFullに戻すには、static_castを使います。
+	// 当然ですが、参照先が本当にBasetrackFullである場合にだけ許されます。
+	BasetrackFull& btfull_ref = static_cast<BasetrackFull&>(btsub_ref);
+	// BasetrackFull& btfull_ref2 = static_cast<BasetrackFull&>(btsub); 未定義動作を起こす危険な行為です。大抵バグります。
+
+	// 仮想関数を一つでも定義している場合に使えるdynamic_castもありますが、ここでは紹介しません。
 }
+
+/*
+ 問題
+ MicrotrackSubsetを継承し、新たにMicrotrackFullクラスを作成してください。
+ MicrotrackFullで新たに追加すべきメンバ変数は以下の通りです。
+     double x,y;
+     double z1,z2;
+     float px,py;
+ wfe
+*/
