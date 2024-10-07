@@ -21,7 +21,12 @@ public:
 class CutBase
 {
 public:
-	virtual ~CutBase() = default;
+	// 派生クラスを基底クラスのポインタにキャストして管理する場合、
+	// デストラクタに必ずvirtualを与えておくこと。
+	virtual ~CutBase()
+	{
+		std::cout << "CutBase destructor" << std::endl;
+	}
 	virtual bool Judge(const Basetrack& tracks) const = 0;
 };
 class PHCut : public CutBase
@@ -30,7 +35,10 @@ public:
 	PHCut(int ph_thresshold_)
 		: ph_thresshold(ph_thresshold_)
 	{}
-	virtual ~PHCut() = default;
+	virtual ~PHCut() override
+	{
+		std::cout << "PHCut destructor" << std::endl;
+	}
 
 	virtual bool Judge(const Basetrack& tracks) const override
 	{
@@ -45,7 +53,10 @@ public:
 	AngCut(double ang_min_, double ang_max)
 		: ang_min(ang_min_), ang_max(ang_max)
 	{}
-	virtual ~AngCut() = default;
+	virtual ~AngCut() override
+	{
+		std::cout << "AngCut destructor" << std::endl;
+	}
 
 	virtual bool Judge(const Basetrack& tracks) const override
 	{
@@ -55,6 +66,25 @@ public:
 
 	double ang_min, ang_max;
 };
+class IDCut : public CutBase
+{
+public:
+	IDCut(const std::vector<int64_t>& ids_) : ids(ids_) {}
+	virtual ~IDCut() override
+	{
+		std::cout << "IDCut destructor" << std::endl;
+	}
+	virtual bool Judge(const Basetrack& tracks) const override
+	{
+		for (int id : ids)
+		{
+			if (tracks.rawid == id) return false;
+		}
+		return true;
+	}
+	std::vector<int64_t> ids;
+};
+
 std::vector<Basetrack> CutTracks(const std::vector<Basetrack>& tracks, const std::unique_ptr<CutBase>& cut)
 {
 	std::vector<Basetrack> result;
@@ -69,7 +99,7 @@ std::vector<Basetrack> CutTracks(const std::vector<Basetrack>& tracks, const std
 	return result;
 }
 
-int maijhrn()
+int main()
 {
 	// こちらのCutTracksは、どのようなカットを行うかを内部では定義していません。
 	// あくまで、引数として受け取ったcutの仮想関数越しに判断させています。
@@ -81,7 +111,26 @@ int maijhrn()
 	std::vector<Basetrack> btlist_ph_over_10 = CutTracks(btlist, ph_cut);// PHが10以上のtrackだけを抽出
 
 	std::unique_ptr<CutBase> ang_cut = std::make_unique<AngCut>(0.2, 0.4);
-	std::vector<Basetrack> btlist_id_1_10_100 = CutTracks(btlist, ang_cut);// radial angleが0.2-0.4のtrackだけを抽出
+	std::vector<Basetrack> btlist_ang_02_04 = CutTracks(btlist, ang_cut);// radial angleが0.2-0.4のtrackだけを抽出
+
+	std::unique_ptr<CutBase> id_cut = std::make_unique<IDCut>(std::vector<int64_t>{1, 10, 100});
+	std::vector<Basetrack> btlist_id_1_10_100 = CutTracks(btlist, id_cut);// rawidが1, 10, 100のtrackを除外
+
+	// 今回、PHCut、AngCutという2個の派生クラスをCutBaseのスマートポインタに格納していますが、
+	// このように派生クラスを基底クラスにキャストして管理するとき、少し注意すべきことがあります。
+	// それは、「CutBaseおよびその派生クラスのデストラクタを仮想関数にする」ことです。
+	// CutBaseのデストラクタは、当然ながら、派生クラスのデストラクタのことを知りません。
+	// 上の例でph_cut、ang_cutの2つはCutBase型なので、もしデストラクタが派生クラスでない場合、
+	// CutBaseは自身のデストラクタのみを呼び出し、派生クラスのデストラクタを呼びだしてくれません。
+	// 例えば派生クラスIDCutは、追加のメンバ変数としてstd::vector<int64_t> idsを持っていますが、
+	// IDCutのデストラクタをきちんと呼び出さなければ、この変数はデストラクタによって破棄されず、メモリリークを起こします。
+	// （厳密に言えば、メモリリークを起こすかどうかは処理系によると思います。C++規格的には未定義動作です。）
+	// 
+	// 上の例では、CutBaseのデストラクタをわざわざvirtualにして仮想関数にしています。
+	// こうすることで、CutBaseからでも通常の仮想関数と同じように派生クラスのデストラクタを呼び出すことができます。
+
+	// 基底クラス型で派生クラスを管理するような場合は、必ずデストラクタを仮想関数にしておくようにしましょう。
+
 
 	return 0;
 }

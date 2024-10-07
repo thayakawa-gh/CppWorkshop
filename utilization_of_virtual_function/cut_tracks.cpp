@@ -40,8 +40,26 @@ std::vector<Basetrack> AngCut(const std::vector<Basetrack>& tracks, double ang_m
 	}
 	return result;
 }
+std::vector<Basetrack> IDCut(const std::vector<Basetrack>& tracks, const std::vector<int64_t>& ids)
+{
+	std::vector<Basetrack> result;
+	for (const Basetrack& t : tracks)
+	{
+		bool found = false;
+		for (int64_t id : ids)
+		{
+			if (t.rawid == id)
+			{
+				found = true;
+				break;
+			}
+		}
+		if (!found) result.push_back(t);
+	}
+	return result;
+}
 
-int main()
+int mawefin()
 {
 	std::vector<Basetrack> btlist;
 
@@ -50,6 +68,9 @@ int main()
 	std::vector<Basetrack> btlist_ph = PHCut(btlist, 20);// PHが20以上のtrackだけを抽出
 
 	std::vector<Basetrack> btlist_ang = AngCut(btlist, 0.2, 0.4);// 角度が0.0以上0.2未満のtrackだけを抽出
+
+	std::vector<int64_t> ids = { 123456, 234567, 345678, 456789, 567890 };
+	std::vector<Basetrack> btlist_id = IDCut(btlist, ids);// rawidがidsに含まれるtrackを除去
 
 	return 0;
 
