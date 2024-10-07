@@ -60,9 +60,9 @@ int main()
 	{
 		std::cout << std::format("ptr2 is not nullptr, rawid == {}\n", uptr2->pl);
 	}
-
+	uptr2 = std::make_unique<Basetrack>(26, 67890, 200085, 0.2541, -1.6531, 12316.2, 191893.3, 10802.3);
 	// std::unique_ptrはコピーできません。BasetrackPairと同じく、コピーコンストラクタ・コピー代入演算子がdeleteされているためです。
-	// uptr2 = uptr1; ... コンパイルエラー
+	// uptr2 = uptr1; //... コンパイルエラー
 
 	// std::unique_ptrはdeleteする必要がありません。スコープ{}を抜けるときに勝手にdeleteされます。
 	// しかし、reset関数によって明示的にdeleteすることもできます。

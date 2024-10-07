@@ -32,9 +32,9 @@ public:
 };
 
 
-int main2()
+int main()
 {
-	std::ifstream ifs("../smart_pointer/linklets.txt");
+	std::ifstream ifs("../shared_ptr/linklets.txt");
 	if (!ifs)
 	{
 		std::cerr << "File not found\n";
@@ -92,4 +92,6 @@ int main2()
 		}
 	}
 	std::cout << std::format("count0: {}, count1: {}\n", count0, count1);
+
+	return 0;
 }

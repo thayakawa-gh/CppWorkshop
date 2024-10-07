@@ -18,25 +18,11 @@ public:
 std::vector<Basetrack> PHCut(const std::vector<Basetrack>& tracks, int ph_min)
 {
 	std::vector<Basetrack> result;
-	for (int i = 0; i < tracks.size(); ++i)
+	for (const Basetrack& t : tracks)
 	{
-		const Basetrack& track = tracks[i];
-		if (track.ph >= ph_min)
+		if (int(t.ph / 10000) >= ph_min)
 		{
-			result.push_back(track);
-		}
-	}
-	return result;
-}
-std::vector<Basetrack> IDCut(const std::vector<Basetrack>& tracks, const std::vector<int64_t>& rawid_list)
-{
-	std::vector<Basetrack> result;
-	for (int i = 0; i < tracks.size(); ++i)
-	{
-		const Basetrack& track = tracks[i];
-		if (std::binary_search(rawid_list.begin(), rawid_list.end(), track.rawid))
-		{
-			result.push_back(track);
+			result.push_back(t);
 		}
 	}
 	return result;
@@ -44,13 +30,12 @@ std::vector<Basetrack> IDCut(const std::vector<Basetrack>& tracks, const std::ve
 std::vector<Basetrack> AngCut(const std::vector<Basetrack>& tracks, double ang_min, double ang_max)
 {
 	std::vector<Basetrack> result;
-	for (int i = 0; i < tracks.size(); ++i)
+	for (const Basetrack& t : tracks)
 	{
-		const Basetrack& track = tracks[i];
-		double ang = std::sqrt(track.ax * track.ax + track.ay * track.ay);
+		double ang = std::sqrt(t.ax * t.ax + t.ay * t.ay);
 		if (ang >= ang_min && ang <= ang_max)
 		{
-			result.push_back(track);
+			result.push_back(t);
 		}
 	}
 	return result;
@@ -60,21 +45,20 @@ int main()
 {
 	std::vector<Basetrack> btlist;
 
-	// ... btlist��track��ǉ����鏈��
+	// ... btlistにtrackを追加する処理
 
-	std::vector<Basetrack> btlist_ph = PHCut(btlist, 10);// PH��10�ȏ��track�����𒊏o
+	std::vector<Basetrack> btlist_ph = PHCut(btlist, 20);// PHが20以上のtrackだけを抽出
 
-	std::vector<int64_t> rawid_list = { 12345, 67890, 23456, 78901 };
-	std::vector<Basetrack> btlist_id = IDCut(btlist, rawid_list);// rawid��rawid_list�Ɋ܂܂�Ă���track�����𒊏o
+	std::vector<Basetrack> btlist_ang = AngCut(btlist, 0.2, 0.4);// 角度が0.0以上0.2未満のtrackだけを抽出
 
-	std::vector<Basetrack> btlist_ang = AngCut(btlist, 0.2, 0.4);// �p�x��0.0�ȏ�0.2������track�����𒊏o
+	return 0;
 
-	// PHCut�AIDCut�AAngCut��if���ɂ�锻��ȊO�͑S�������B�Ȃ̂ɁA�킴�킴3�̊֐��ɕ����Ē�`���Ă��܂��B
-	// ��������ƐF�X�ȃJ�b�g�������o�Ă����Ƃ��ɁA���ꂼ��̃J�b�g�����ɑΉ�����֐������̂͑�ςł��傤�B
-	// ����͒P���for���[�v���񂷂����̃V���v���ȏ����Ȃ̂ŁA�R�s�y���Ă�����قǖ��͂Ȃ���������܂��񂪁A
-	// �Ⴆ��linklet�����Ƃ��ɁA�ڑ���PL�̓���̃G���A�����𔲂��o���A�����Ƃ̐ڑ�����̂��߂̓�d���[�v�������āc�c�ȂǂƂ��Ă����ƁA
-	// ����R�s�y����C�ɂȂ�Ȃ��悤�ȃR�[�h�ʂɂȂ��Ă����肵�܂��B
-	// ���������Ƃ��A�g�J�b�g�����������O����^����h���Ƃ͂ł��Ȃ����̂ł��傤���H
-	// �قƂ�ǂ̋��ʏ�����1�̊֐��ɂ܂Ƃ߂Ă��܂��āA�J�b�g�����������O����^���邱�Ƃ��ł���΁A
-	// ����̊g�����ƃ����e�i���X�����i�i�Ɍ��シ��ł��傤�B
+	// PHCut、AngCutはif文による判定以外は全く同じ。なのに、わざわざ3つの関数に分けて定義しています。
+	// 今後もっと色々なカット条件が出てきたときに、それぞれのカット条件に対応する関数を作るのは大変でしょう。
+	// 今回は単一のforループを回すだけのシンプルな処理なので、コピペしてもそれほど問題はないかもしれませんが、
+	// 例えばlinkletを作るときに、接続先PLの特定のエリアだけを抜き出し、それらとの接続判定のための二重ループを書いて……などとしていくと、
+	// 到底コピペする気になれないようなコード量になってきたりします。
+	// こういうとき、“カット条件だけを外から与える”ことはできないものでしょうか？
+	// ほとんどの共通処理は1個の関数にまとめてしまって、カット部分だけを外から与えることができれば、
+	// 今後の拡張性とメンテナンス性が格段に向上するでしょう。
 }

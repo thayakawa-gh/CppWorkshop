@@ -1,5 +1,6 @@
 #include <iostream>
 #include <format>
+#include <vector>
 
 class MicrotrackSubset
 {
@@ -101,7 +102,7 @@ int main()
 	BasetrackFull& btfull_ref = static_cast<BasetrackFull&>(btsub_ref);
 	// BasetrackFull& btfull_ref2 = static_cast<BasetrackFull&>(btsub); 未定義動作を起こす危険な行為です。大抵バグります。
 
-	// 仮想関数を一つでも定義している場合に使えるdynamic_castもありますが、ここでは紹介しません。
+	// 仮想関数を一つでも定義している場合に使えるdynamic_castもありますが、ここでは説明しません。
 }
 
 /*
@@ -111,5 +112,4 @@ int main()
      double x,y;
      double z1,z2;
      float px,py;
- wfe
 */

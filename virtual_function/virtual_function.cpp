@@ -3,17 +3,64 @@
 #include <format>
 #include <vector>
 
+/*
+ 継承の持つひとつ面白い機能として、仮想関数があります。
+ これは、基底クラスで予め任意のメンバ関数に"virtual"を付与して宣言しておき、
+ 派生クラスでその関数を書き換えられるようにするものです。
+
+ いえ、厳密にいえば、仮想関数でないメンバ関数であっても、派生クラスでの上書きは可能です。
+ ただし、仮想関数であるか、そうでないかによって、関数が呼ばれたときに「どの関数が呼ばれるのか」が異なります。
+
+ 例えば、派生クラスは基底クラスのポインタや参照で指し示されることがあります。
+ Base* d = new Derived;
+ この場合、dは本当はDerived型のオブジェクトを指しているのですが。
+ 今はBase型のポインタに格納されているため、Base型として扱われます。
+ したがって、dはBase型のメンバにしかアクセスすることができません。
+ d->normal_function(); // Base::normal_function  と表示されます。
+
+ しかし、仮想関数の場合は異なります。
+ たとえBase型のポインタに代入されていても、きちんとDerived側の関数を呼んでくれます。
+ d->virtual_function(); // Derived::virtual_function  と表示されます。
+
+ この振る舞いは、std::unique_ptrのようなスマートポインタを使った場合も同様です。
+ std::unique_ptr<Base> d = std::make_unique<Derived>();
+ d->virtual_function(); // Derived::virtual_function  と表示されます。
+
+ このように、基底クラスのポインタや参照からでも派生クラスで定義した関数を実行できるようにするものが仮想関数です。
+
+
+
+ 仮想関数にはデメリットもあります。
+ まず、仮想関数を一つでも定義すると、そのクラスの大きさはポインタ1個分大きくなります。
+ 例えば、derived_classの方で例として出したBasetrackSubsetは64バイトの大きさを持ちます。
+ （56バイトでは？と思うかもしれませんが、64です。これには構造体のアライメントがかかわっています。）
+ 一方、もしBasetrackSubsetに1個でも仮想関数を定義すると、大きさは72バイトになります。
+ したがって、データの格納を担うクラスに仮想関数を作ることはあまり推奨できません。
+ しかしながら、一般に継承を用いるときは、最低限virtualなデストラクタを定義することが推奨されています。
+ 仮想関数と同じように、Baseポインタや参照に変換してしまったDerived型変数は、そのDerived型のデストラクタを呼ぶにはvirtualにする必要があるためです。
+ 「継承するときにはvirtualデストラクタを定義する」「仮想関数（virtualなデストラクタ含む）があるとサイズが8バイト増える」
+ ……ということは、根本的に、データ格納クラスを継承で定義することはあまりよくないとも言えます。
+ BasetrackSubsetとBasetrackFullは、このあたりの振る舞いを分かっている人間がきちんと管理して使うのならよいのですが、
+ 分からないうちに安易に使うべきではないかもしれません。
+
+ また、仮想関数は関数呼び出しのオーバーヘッドが大きいです。
+ 細かく話すとややこしいので省略しますが、仮想関数は最適化が効きにくく、仮想関数の処理を呼ぶのに通常の関数よりもわずかに時間がかかる場合が多いのです。
+ つまり、仮想関数を過度に多用するとそのプログラムの処理が遅くなる可能性があります。
+ たかだか1万回、1億回程度の仮想関数呼び出しでは大して影響はないでしょう。が、100億回、1兆回と増えてくると、顕著に影響してくるかもしれません。
+*/
+
+
 class Base
 {
 public:
 
-	// �h���N���X���`����ꍇ�A�f�X�g���N�^��virtual�ɂ��Ă������Ƃ���������܂��B
+	// 派生クラスを定義する場合、デストラクタをvirtualにしておくことが推奨されます。
 	virtual ~Base()
 	{
 		std::cout << "Base destructor\n";
 	}
 
-	// �ʏ�̊֐�
+	// 通常の関数
 	void normal_function() const
 	{
 		std::cout << "Base::normal_function\n";
@@ -24,7 +71,7 @@ public:
 		virtual_function();
 	}
 
-	// ���z�֐�
+	// 仮想関数
 	virtual void virtual_function() const
 	{
 		std::cout << "Base::virtual_function\n";
@@ -51,61 +98,14 @@ public:
 	}
 };
 
-/*
- �p���̎��ЂƂʔ����@�\�Ƃ��āA���z�֐�������܂��B
- ����́A���N���X�ŗ\�ߔC�ӂ̃����o�֐���"virtual"��t�^���Đ錾���Ă����A
- �h���N���X�ł��̊֐���������������悤�ɂ�����̂ł��B
-
- �����A�����ɂ����΁A���z�֐��łȂ������o�֐��ł����Ă��A�h���N���X�ł̏㏑���͉\�ł��B
- �������A���z�֐��ł��邩�A�����łȂ����ɂ���āA�֐����Ă΂ꂽ�Ƃ��Ɂu�ǂ̊֐����Ă΂��̂��v���قȂ�܂��B
-
- �Ⴆ�΁A�h���N���X�͊��N���X�̃|�C���^��Q�ƂŎw��������邱�Ƃ�����܂��B
- Base* d = new Derived;
- ���̏ꍇ�Ad�͖{����Derived�^�̃I�u�W�F�N�g���w���Ă���̂ł����B
- ����Base�^�̃|�C���^�Ɋi�[����Ă��邽�߁ABase�^�Ƃ��Ĉ����܂��B
- ���������āAd��Base�^�̃����o�ɂ����A�N�Z�X���邱�Ƃ��ł��܂���B
- d->normal_function(); // Base::normal_function  �ƕ\������܂��B
-
- �������A���z�֐��̏ꍇ�͈قȂ�܂��B
- ���Ƃ�Base�^�̃|�C���^�ɑ������Ă��Ă��A�������Derived���̊֐����Ă�ł���܂��B
- d->virtual_function(); // Derived::virtual_function  �ƕ\������܂��B
-
- ���̐U�镑���́Astd::unique_ptr�̂悤�ȃX�}�[�g�|�C���^���g�����ꍇ�����l�ł��B
- std::unique_ptr<Base> d = std::make_unique<Derived>();
- d->virtual_function(); // Derived::virtual_function  �ƕ\������܂��B
-
- ���̂悤�ɁA���N���X�̃|�C���^��Q�Ƃ���ł��h���N���X�Œ�`�����֐������s�ł���悤�ɂ�����̂����z�֐��ł��B
-
-
-
- ���z�֐��ɂ̓f�����b�g������܂��B
- �܂��A���z�֐�����ł���`����ƁA���̃N���X�̑傫���̓|�C���^1���傫���Ȃ�܂��B
- �Ⴆ�΁Aderived_class�̕��ŗ�Ƃ��ďo����BasetrackSubset��64�o�C�g�̑傫���������܂��B
- �i56�o�C�g�ł́H�Ǝv����������܂��񂪁A64�ł��B����ɂ͍\���̂̃A���C�����g����������Ă��܂��B�j
- ����A����BasetrackSubset��1�ł����z�֐����`����ƁA�傫����72�o�C�g�ɂȂ�܂��B
- ���������āA�f�[�^�̊i�[��S���N���X�ɉ��z�֐�����邱�Ƃ͂��܂萄���ł��܂���B
- �������Ȃ���A��ʂɌp����p����Ƃ��́A�Œ��virtual�ȃf�X�g���N�^���`���邱�Ƃ���������Ă��܂��B
- ���z�֐��Ɠ����悤�ɁABase�|�C���^��Q�Ƃɕϊ����Ă��܂���Derived�^�ϐ��́A����Derived�^�̃f�X�g���N�^���ĂԂɂ�virtual�ɂ���K�v�����邽�߂ł��B
- �u�p������Ƃ��ɂ�virtual�f�X�g���N�^���`����v�u���z�֐��ivirtual�ȃf�X�g���N�^�܂ށj������ƃT�C�Y��8�o�C�g������v
- �c�c�Ƃ������Ƃ́A���{�I�ɁA�f�[�^�i�[�N���X���p���Œ�`���邱�Ƃ͂��܂�悭�Ȃ��Ƃ������܂��B
- BasetrackSubset��BasetrackFull�́A���̂�����̐U�镑���𕪂����Ă���l�Ԃ�������ƊǗ����Ďg���̂Ȃ�悢�̂ł����A
- ������Ȃ������Ɉ��ՂɎg���ׂ��ł͂Ȃ���������܂���B
-
- �܂��A���z�֐��͊֐��Ăяo���̃I�[�o�[�w�b�h���傫���ł��B
- �ׂ����b���Ƃ�₱�����̂ŏȗ����܂����A���z�֐��͍œK���������ɂ����A���z�֐��̏������ĂԂ̂ɒʏ�̊֐������킸���Ɏ��Ԃ�������ꍇ�������̂ł��B
- �܂�A���z�֐����ߓx�ɑ��p����Ƃ��̃v���O�����̏������x���Ȃ�\��������܂��B
- ��������1����A1������x�̉��z�֐��Ăяo���ł͑債�ĉe���͂Ȃ��ł��傤�B���A100����A1����Ƒ����Ă���ƁA�����ɉe�����Ă��邩������܂���B
-*/
-
-
 int main()
 {
 	Base b;
 	Derived d;
 
-	// �����ł́ABase�ADerived�̕ϐ���p�ӂ��A���ꂼ��̊֐����Ăяo���Ă��܂��B
-	// �d�v�Ȃ��Ƃ́Ab�Ad�Ƃ��ɂ��ꂼ��Base�^�ADerived�^�Ő錾����Ă��邱�Ƃł��B
-	// �܂�Ab�Ad�Ƃ����ϐ��́A���ꂼ�ꎩ�g��Base�^�ADerived�^�ł���Ƃ������Ƃ�"�m���Ă��܂�"�B
+	// ここでは、Base、Derivedの変数を用意し、それぞれの関数を呼び出しています。
+	// 重要なことは、b、dともにそれぞれBase型、Derived型で宣言されていることです。
+	// つまり、b、dという変数は、それぞれ自身がBase型、Derived型であるということを"知っています"。
 
 	std::cout << "\n------normal_function------\n";
 	b.normal_function();// Base::normal_function
@@ -115,15 +115,15 @@ int main()
 	b.virtual_function();// Base::virtual_function
 	d.virtual_function();// Derived::virtual_function
 
-	// b�̏ꍇ��Base���Œ�`�����֐����Ad�̏ꍇ��Derived���Œ�`�����֐����Ă΂�Ă��܂��B
-	// ����͂���قǕs�v�c�ȐU�镑���ł͂Ȃ��Ǝv���܂��B
+	// bの場合はBase内で定義した関数が、dの場合はDerived内で定義した関数が呼ばれています。
+	// これはそれほど不思議な振る舞いではないと思います。
 
 
 
-	// ���ɁAb�Ad��Base�^�̎Q�Ƃɕς��Ă݂܂��傤�B
-	// �����ŏd�v�Ȃ��Ƃ́Ad_ref�̎Q�Ɛ�ł���d�͂��Ƃ���Derived�^�ł������ɂ�������炸�A����Base�^�̈����ɂȂ��Ă��邱�Ƃł��B
-	// ����������ƁA�ȉ���d_ref�́A"���g��Derived�ł������Ƃ������Ƃ�Y��Ă���"�̂ł��B
-	// �iC++�ł́A"�ϐ��̌^�����ł��邩"�����ɏd�v�ȈӖ��������܂��B�j
+	// 次に、b、dをBase型の参照に変えてみましょう。
+	// ここで重要なことは、d_refの参照先であるdはもともとDerived型であったにもかかわらず、今はBase型の扱いになっていることです。
+	// 言い換えると、以下でd_refは、"自身がDerivedであったということを忘れている"のです。
+	// （C++では、"変数の型が何であるか"が非常に重要な意味を持ちます。）
 	Base& b_ref = b;
 	Base& d_ref = d;
 
@@ -135,14 +135,14 @@ int main()
 	b_ref.virtual_function();// Base::virtual_function
 	d_ref.virtual_function();// Derived::virtual_function
 
-	// �����ŁAb_ref.normal_function()��d_ref.normal_function()�͂ǂ����Base::normal_function()���Ă΂�Ă��܂��B
-	// ����́Ab_ref�Ad_ref���ǂ����Base�^�Ƃ��Ĉ����Ă��邩��ł��B
-	// ���ɁAd_ref�͎��g��Derived�^�ł��������Ƃ�Y��Ă��܂��Ă���̂ł��B
+	// ここで、b_ref.normal_function()とd_ref.normal_function()はどちらもBase::normal_function()が呼ばれています。
+	// これは、b_ref、d_refがどちらもBase型として扱われているからです。
+	// 特に、d_refは自身がDerived型であったことを忘れてしまっているのです。
 
-	// ����ŁAb_ref.virtual_function()��d_ref.virtual_function()�ł͂��ꂼ��A
-	// ���Ƃ��Ƃ̎����̌^�ł���Base�^�ADerived�^�̊֐����Ă΂�Ă��܂��B
-	// ���ꂪ���z�֐��̎������ł��B
-	// ���������g�̌^��Base�^�ł����Ă��A�^�̌^��Derived�ł�������΁A���z�֐��͔h���N���X�Œ�`���ꂽ���z�֐����Ăяo���Ă���܂��B
+	// 一方で、b_ref.virtual_function()とd_ref.virtual_function()ではそれぞれ、
+	// もともとの自分の型であるBase型、Derived型の関数が呼ばれています。
+	// これが仮想関数の持つ性質です。
+	// 今自分自身の型がBase型であっても、真の型がDerivedでさえあれば、仮想関数は派生クラスで定義された仮想関数を呼び出してくれます。
 
 
 	std::cout << "\n";

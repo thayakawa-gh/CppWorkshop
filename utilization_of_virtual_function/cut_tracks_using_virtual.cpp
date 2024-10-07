@@ -5,6 +5,9 @@
 class Basetrack
 {
 public:
+	Basetrack()
+		: pl(0), rawid(0), ph(0), ax(0), ay(0), x(0), y(0), z(0)
+	{}
 	Basetrack(int pl_, int64_t rawid_, int ph_, double ax_, double ay_, double x_, double y_, double z_)
 		: pl(pl_), rawid(rawid_), ph(ph_), ax(ax_), ay(ay_), x(x_), y(y_), z(z_)
 	{}
@@ -24,37 +27,24 @@ public:
 class PHCut : public CutBase
 {
 public:
-	PHCut(int ph_thresshold_) : ph_thresshold(ph_thresshold_) {}
+	PHCut(int ph_thresshold_)
+		: ph_thresshold(ph_thresshold_)
+	{}
 	virtual ~PHCut() = default;
 
 	virtual bool Judge(const Basetrack& tracks) const override
 	{
-		return tracks.ph >= ph_thresshold;
+		return int(tracks.ph / 10000) >= ph_thresshold;
 	}
 
 	int ph_thresshold;
 };
-class IDCut : public CutBase
-{
-public:
-	IDCut(const std::vector<int64_t>& rawid_list_)
-		: rawid_list(rawid_list_)
-	{
-		std::sort(rawid_list.begin(), rawid_list.end());// rawid_list‚ğid‚Ì¸‡‚Éƒ\[ƒg‚µ‚Ä‚¢‚éB
-	}
-	virtual ~IDCut() = default;
-
-	virtual bool Judge(const Basetrack& tracks) const override
-	{
-		// –‘O‚É—^‚¦‚½rawid_list‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚étrack‚È‚çtrue‚ğ•Ô‚·B
-		return std::binary_search(rawid_list.begin(), rawid_list.end(), tracks.rawid);
-	}
-
-	std::vector<int64_t> rawid_list;
-};
 class AngCut : public CutBase
 {
-	AngCut(double ang_min_, double ang_max) : ang_min(ang_min_), ang_max(ang_max) {}
+public:
+	AngCut(double ang_min_, double ang_max)
+		: ang_min(ang_min_), ang_max(ang_max)
+	{}
 	virtual ~AngCut() = default;
 
 	virtual bool Judge(const Basetrack& tracks) const override
@@ -65,11 +55,11 @@ class AngCut : public CutBase
 
 	double ang_min, ang_max;
 };
-
 std::vector<Basetrack> CutTracks(const std::vector<Basetrack>& tracks, const std::unique_ptr<CutBase>& cut)
 {
 	std::vector<Basetrack> result;
-	for (const auto& track : tracks)
+	size_t size = result.size();
+	for (const Basetrack& track : tracks)
 	{
 		if (cut->Judge(track))
 		{
@@ -79,24 +69,39 @@ std::vector<Basetrack> CutTracks(const std::vector<Basetrack>& tracks, const std
 	return result;
 }
 
-int main()
+int maijhrn()
 {
-	// CutTracks‚ÍA‚Ç‚Ì‚æ‚¤‚ÈƒJƒbƒg‚ğs‚¤‚©‚ğ“à•”‚Å‚Í’è‹`‚µ‚Ä‚¢‚Ü‚¹‚ñB
-	// ‚ ‚­‚Ü‚ÅAˆø”‚Æ‚µ‚Äó‚¯æ‚Á‚½cut‚Ì‰¼‘zŠÖ”‰z‚µ‚É”»’f‚³‚¹‚Ä‚¢‚Ü‚·B
-	// ‚æ‚Á‚ÄA
+	// ã“ã¡ã‚‰ã®CutTracksã¯ã€ã©ã®ã‚ˆã†ãªã‚«ãƒƒãƒˆã‚’è¡Œã†ã‹ã‚’å†…éƒ¨ã§ã¯å®šç¾©ã—ã¦ã„ã¾ã›ã‚“ã€‚
+	// ã‚ãã¾ã§ã€å¼•æ•°ã¨ã—ã¦å—ã‘å–ã£ãŸcutã®ä»®æƒ³é–¢æ•°è¶Šã—ã«åˆ¤æ–­ã•ã›ã¦ã„ã¾ã™ã€‚
+
+	std::vector<Basetrack> btlist;
+	// ... btlistã«trackã‚’è¿½åŠ ã™ã‚‹å‡¦ç†
 
 	std::unique_ptr<CutBase> ph_cut = std::make_unique<PHCut>(10);
-	std::vector<Basetrack> btlist;
-	std::vector<Basetrack> btlist_ph_over_10 = CutTracks(btlist, ph_cut);// PH‚ª10ˆÈã‚Ìtrack‚¾‚¯‚ğ’Šo
+	std::vector<Basetrack> btlist_ph_over_10 = CutTracks(btlist, ph_cut);// PHãŒ10ä»¥ä¸Šã®trackã ã‘ã‚’æŠ½å‡º
 
-	std::vector<int64_t> rawid_list = { 1, 10, 100 };
-	std::unique_ptr<CutBase> id_cut = std::make_unique<IDCut>(rawid_list);
-	std::vector<Basetrack> btlist_id_1_10_100 = CutTracks(btlist, id_cut);// rawid‚ª1, 10, 100‚Ìtrack‚¾‚¯‚ğ’Šo
+	std::unique_ptr<CutBase> ang_cut = std::make_unique<AngCut>(0.2, 0.4);
+	std::vector<Basetrack> btlist_id_1_10_100 = CutTracks(btlist, ang_cut);// radial angleãŒ0.2-0.4ã®trackã ã‘ã‚’æŠ½å‡º
+
+	return 0;
 }
 
-/* –â‘è
- Lecture-04b‚Å¦‚µ‚½‚æ‚¤‚ÉA”h¶ƒNƒ‰ƒX‚ÍŠî’êƒNƒ‰ƒX‚Ìƒ|ƒCƒ“ƒ^‚Åw‚µ¦‚·‚±‚Æ‚ª‚Å‚«‚Ü‚·B
- ‚Æ‚¢‚¤‚±‚Æ‚ÍA—á‚¦‚ÎCutBase‚Ì”h¶ƒNƒ‰ƒX‚ğstd::vector<std::unique_ptr<CutBase>>‚É‚¢‚­‚Â‚àŠi”[‚·‚é‚±‚Æ‚à‚Å‚«‚Ü‚·B
- ‚±‚ê‚ğg‚Á‚ÄACutTracksŠÖ”‚ğu”CˆÓ‚Ì•¡”‚ÌğŒ‚ğ‚·‚×‚Ä–‚½‚·”òÕ‚ğ’Šo‚·‚év‚æ‚¤‚É‘‚«Š·‚¦‚Ä‚İ‚Ü‚µ‚å‚¤B
+/* å•é¡Œ
+ 1. xminã€xmaxã€yminã€ymaxã‚’æŒ‡å®šã—ã¦çŸ©å½¢ã«ã‚«ãƒƒãƒˆã™ã‚‹PosCutã‚¯ãƒ©ã‚¹ã‚’ä½œæˆã—ã¦ãã ã•ã„ã€‚
+ 
+ 2. Lecture-04bã§ç¤ºã—ãŸã‚ˆã†ã«ã€æ´¾ç”Ÿã‚¯ãƒ©ã‚¹ã¯åŸºåº•ã‚¯ãƒ©ã‚¹ã®ãƒã‚¤ãƒ³ã‚¿ã§æŒ‡ã—ç¤ºã™ã“ã¨ãŒã§ãã¾ã™ã€‚
+    ã¨ã„ã†ã“ã¨ã¯ã€ä¾‹ãˆã°CutBaseã®æ´¾ç”Ÿã‚¯ãƒ©ã‚¹ã‚’std::vector<std::unique_ptr<CutBase>>ã«ã„ãã¤ã‚‚æ ¼ç´ã™ã‚‹ã“ã¨ã‚‚ã§ãã¾ã™ã€‚
+    std::vector<std::unique_ptr<CutBase>> cuts;
+    cuts.push_back(std::make_unique<PHCut>(10));
+    cuts.push_back(std::make_unique<PosCut>(30000.0, 40000.0, 120000.0, 130000.0));
+    cuts[0]->Judge(track);// PHCut::JudgeãŒå‘¼ã°ã‚Œã¾ã™ã€‚
 
+    ã“ã‚Œã‚’ä½¿ã£ã¦ã€CutTracksé–¢æ•°ã‚’ã€Œä»»æ„ã®è¤‡æ•°ã®æ¡ä»¶ã‚’ã™ã¹ã¦æº€ãŸã™é£›è·¡ã‚’æŠ½å‡ºã™ã‚‹ã€ã‚ˆã†ã«æ›¸ãæ›ãˆã¦ã¿ã¾ã—ã‚‡ã†ã€‚
+    ã¾ãŸã€Lecture-04ã®basetracks.txtã«å¯¾ã—ã¦ä»¥ä¸‹ã®æ¡ä»¶ã‚’é©ç”¨ã—ã€å®Ÿéš›ã«ä»»æ„ã®çµ„ã¿åˆã‚ã›ã®ã‚«ãƒƒãƒˆãŒæ©Ÿèƒ½ã™ã‚‹ã‹ã‚’ç¢ºèªã—ã¦ã¿ã¾ã—ã‚‡ã†ã€‚
+    PH>=19
+    0.0 <= radial angle < 0.4
+    30000.0 <= x < 40000.0 && 40000.0 <= y < 50000.0
+    ã“ã®æ¡ä»¶ä¸‹ã§ã¯6æœ¬ã®BasetrackãŒç”Ÿãæ®‹ã‚‹ã¨æ€ã„ã¾ã™ã€‚
+
+    ãã®ä»–ã€è‡ªåˆ†ã§è‡ªç”±ã«æ¡ä»¶ã‚’çµ„ã¿åˆã‚ã›ã¦ã€å‹•ä½œã‚’è¦‹ã¦ã¿ã¾ã—ã‚‡ã†ã€‚
 */

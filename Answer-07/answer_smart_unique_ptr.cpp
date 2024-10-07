@@ -57,7 +57,7 @@ public:
 	std::unique_ptr<Basetrack> ptr[2];
 };
 
-int main()
+int maijkn()
 {
 	Basetrack bt1(26, 67890, 200085, 0.2541, -1.6531, 12316.2, 191893.3, 10802.3);
 	Basetrack bt2(27, 67891, 200086, 0.2542, -1.6532, 12316.3, 191893.4, 10802.4);
@@ -83,4 +83,6 @@ int main()
 	{
 		std::cout << "btp1.ptr[1] and btp2.ptr[1] are different objects\n";
 	}
+
+	return 0;
 }
