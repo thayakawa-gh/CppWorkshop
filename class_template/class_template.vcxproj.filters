@@ -11,4 +11,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="basetracks_pl48.txt" />
+    <Text Include="basetracks_pl49.txt" />
+    <Text Include="microtracks_pl49.txt" />
+  </ItemGroup>
 </Project>

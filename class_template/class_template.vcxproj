@@ -129,6 +129,11 @@
   <ItemGroup>
     <ClCompile Include="class_template.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="basetracks_pl48.txt" />
+    <Text Include="basetracks_pl49.txt" />
+    <Text Include="microtracks_pl49.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -95,7 +95,7 @@ int main()
 	std::cout << std::format("pl = {}, rawid = {}, ra = {}\n", btsub_ptr->pl, btsub_ptr->rawid, btsub_ptr->GetRadAng());
 	// ただし、基底クラスの参照やポインタに代入している場合、そのままでは派生クラスのメンバにアクセスできません。
 	// btfull_refやbtfull_ptrはあくまでBasetrackSubsetであり、派生クラスではないものとして扱われます。
-	// std::cout << std::format("isg = {}\n", btfull_ref.isg); ... Compilation Error
+	// std::cout << std::format("isg = {}\n", btsub_ref.isg); ... Compilation Error
 
 	// BasetrackSubsetからもう一度BasetrackFullに戻すには、static_castを使います。
 	// 当然ですが、参照先が本当にBasetrackFullである場合にだけ許されます。

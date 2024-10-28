@@ -7,7 +7,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="template.cpp">
+    <ClCompile Include="function_template.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class_template.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

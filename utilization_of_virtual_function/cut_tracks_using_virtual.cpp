@@ -27,7 +27,7 @@ public:
 	{
 		std::cout << "CutBase destructor" << std::endl;
 	}
-	virtual bool Judge(const Basetrack& tracks) const = 0;
+	virtual bool Judge(const Basetrack& tracks) const { return true; };
 };
 class PHCut : public CutBase
 {
@@ -88,7 +88,6 @@ public:
 std::vector<Basetrack> CutTracks(const std::vector<Basetrack>& tracks, const std::unique_ptr<CutBase>& cut)
 {
 	std::vector<Basetrack> result;
-	size_t size = result.size();
 	for (const Basetrack& track : tracks)
 	{
 		if (cut->Judge(track))

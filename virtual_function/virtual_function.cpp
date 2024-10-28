@@ -96,6 +96,10 @@ public:
 	{
 		std::cout << "Derived::virtual_function\n";
 	}
+	virtual void virtual_function2() const
+	{
+		std::cout << "Derived::virtual_function2\n";
+	}
 };
 
 int main()
@@ -117,7 +121,6 @@ int main()
 
 	// bの場合はBase内で定義した関数が、dの場合はDerived内で定義した関数が呼ばれています。
 	// これはそれほど不思議な振る舞いではないと思います。
-
 
 
 	// 次に、b、dをBase型の参照に変えてみましょう。
