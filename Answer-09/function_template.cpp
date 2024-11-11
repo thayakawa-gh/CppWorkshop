@@ -24,15 +24,15 @@ public:
 template <class Track1, class Track2>
 bool JudgeConnection(const Track1& t1, const Track2& t2)
 {
-	if (std::abs(t1.ax - t2.ax) > 0.05) return false;
-	if (std::abs(t1.ay - t2.ay) > 0.05) return false;
+	if (std::abs(t1.ax - t2.ax) > 0.2) return false;
+	if (std::abs(t1.ay - t2.ay) > 0.2) return false;
 	double z = (t1.z + t2.z) / 2;
 	double x1 = t1.x + (z - t1.z) * t1.ax;
 	double x2 = t2.x + (z - t2.z) * t2.ax;
-	if (std::abs(x1 - x2) > 30) return false;
+	if (std::abs(x1 - x2) > 200) return false;
 	double y1 = t1.y + (z - t1.z) * t1.ay;
 	double y2 = t2.y + (z - t2.z) * t2.ay;
-	if (std::abs(y1 - y2) > 30) return false;
+	if (std::abs(y1 - y2) > 200) return false;
 	return true;
 }
 

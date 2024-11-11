@@ -85,7 +85,7 @@ int main()
       角度 : ax_=ax*a+ay*b, ay_=ax*c+ay*d
     （BasetrackとMicrotrackそれぞれのアフィン変換を行うのは面倒なので、これも関数テンプレートにすると良いかもしれませんね。）
 
- 2. 関数テンプレートのときに出題したJudgeConnectivity関数を用いて、接続可能な飛跡の組み合わせを全て取り出し、
+ 2. 関数テンプレートのときに出題したJudgeConnection関数を用いて、接続可能な飛跡の組み合わせを全て取り出し、
     std::vector<Linklet<Basetrack, Basetrack>>またはstd::vector<Linklet<Basetrack, Microtrack>>に格納する関数Connectを作成してください。
     template <class Track1, class Track2>
     std::vector<Linklet<Track1, Track2>> Connect(const std::vector<Track1>& tracks1, const std::vector<Track2>& tracks2)
