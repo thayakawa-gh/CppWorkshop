@@ -55,7 +55,7 @@ int main()
 	{
 		Basetrack b;
 		std::istringstream iss(buf);
-		iss >> b.pl >> b.rawid >> b.ph >> b.ax >> b.ay >> b.x >> b.y >> b.z >> b.rawid_m[0] >> b.rawid_m[1];
+		iss >> b.pl >> b.rawid >> b.ax >> b.ay >> b.x >> b.y >> b.z >> b.rawid_m[0] >> b.rawid_m[1];
 		btlist.push_back(b);
 	}
 
@@ -70,7 +70,7 @@ int main()
 	{
 		Microtrack m;
 		std::istringstream iss(buf);
-		iss >> m.pos >> m.rawid >> m.ph >> m.ax >> m.ay >> m.x >> m.y >> m.z;
+		iss >> m.pos >> m.rawid >> m.ax >> m.ay >> m.x >> m.y >> m.z;
 		mtmap.insert(std::make_pair(PosRawidPair{ m.pos, m.rawid }, m));
 	}
 
