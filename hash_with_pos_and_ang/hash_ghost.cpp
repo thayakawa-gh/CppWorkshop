@@ -50,9 +50,9 @@ public:
 	{
 		binlist.clear();//clearはvectorの中身をすべて削除しますが、メモリを開放しないので、それほどオーバーヘッドはありません。
 		std::pair<int, int> ixiy = GetIxIy(x, y);
-		for (int i = -1; i <= 1; ++i)
+		for (int j = -1; j <= 1; ++j)
 		{
-			for (int j = -1; j <= 1; ++j)
+			for (int i = -1; i <= 1; ++i)
 			{
 				int ix = ixiy.first + i;
 				int iy = ixiy.second + j;

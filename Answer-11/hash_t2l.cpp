@@ -65,9 +65,9 @@ public:
 	{
 		binlist.clear();
 		std::pair<int, int> ixiy = GetIxIyFromDownPL(x, y, ax, ay);
-		for (int i = -1; i <= 1; ++i)
+		for (int j = -1; j <= 1; ++j)
 		{
-			for (int j = -1; j <= 1; ++j)
+			for (int i = -1; i <= 1; ++i)
 			{
 				int ix = ixiy.first + i;
 				int iy = ixiy.second + j;
@@ -241,7 +241,7 @@ int main()
 	{
 		// ハッシュテーブルと総当たりの結果を比較し、
 		// 両者が完全一致することを確認します。
-
+		std::cout << ht_linklet.size() << std::endl;
 		if (ht_linklet.size() != bf_linklet.size())
 		{
 			std::cerr << std::format("Error: t2l failed, size mismatch: ht_linklet = {}, bf_linklet = {}\n",
