@@ -1,8 +1,7 @@
-#include <argparse/argparse.hpp>
+#include <argparse/argparse.hpp> // <- おまじない。argparseを使うために必要なヘッダファイルをインクルードする。
 #include <iostream>
 
-// #### 動機
-// プログラム実行時に与えるコマンドライン引数を読み込み、プログラムの挙動を調整する方法。
+// #### プログラム実行時に与えるコマンドライン引数を読み込み、プログラムの挙動を調整する方法。
 // 何らかのプログラムを実行するとき、そのプログラムに対してパラメータを与えて挙動を調整したくなることがしばしばあります。
 // シンプルな例で言えば、あるBasetrackのファイルを読み込み、PHカットをかけて残ったBasetrackを出力したいと考えたとき、
 // このPH閾値をプログラム中に直接書いてしまうと、PH閾値を外から変更できなくなってしまいます。
@@ -26,39 +25,42 @@
 // 4. 「構成プロパティ」→「VC++ ディレクトリ」→「インクルードディレクトリ」に、argparseのコピー先フォルダを追加する。
 // 5. 「構成プロパティ」→「C/C++」→「言語」→「C++言語標準」→「/std:c++17」ないし数字が17以上のものを選択。/std:c++20以上か/std:c++latestを推奨。
 
+// argc、argvには与えられたコマンドライン引数の情報が格納されています。ここでは詳細は解説しません。
 int main(char argc, char* argv[])
 {
+	// ----------コマンドライン引数の定義----------
 	argparse::ArgumentParser parser("This is a test program.");
 
 	parser.add_argument("input_filename").help("input file name");
 	parser.add_argument("output_filename").help("output file name");
 
-	// 整数型を受け取りたいときはscan<'i', int>()を使う。
+	// 整数型を受け取りたいときはscan<'i', int>()を使います。
 	parser.add_argument("--ph_cut").help("PH cut threshold").scan<'i', int>().default_value(20);
-	// 浮動小数点型を受け取りたいときはscan<'f', double>()を使う。
-	// また複数の値を受け取りたい場合、nargs(num)ないしnargs(min, max)のように数を指定する。
+	// 浮動小数点型を受け取りたいときはscan<'f', double>()で指定します。
+	// また複数の値を受け取りたい場合、nargs(num)ないしnargs(min, max)のように数を指定することができます。
 	parser.add_argument("--xrange").help("xmin xmax").scan<'f', double>().default_value(std::vector<double>()).nargs(2);
 	parser.add_argument("--rem_tracks").help("output filename for removed track list").default_value(std::string());
 
 	// 上記の引数定義だと、次のようにこのプログラムを実行することができます。
 	// program_name.exe input.txt output.txt --ph_cut 20 --rem_tracks removed_tracks.txt --xrange 350000 400000
-	// input.txtとoutput.txtは必須で、program_name.exeに続けて指定する必要があります。
-	// --ph_cut、--xrange、--rem_tracksは省略可能かつ指定順序任意で、省略した場合はそれぞれデフォルト値が使われます。
+	// input.txtとoutput.txtは必須で、program_name.exeに続けてadd_argumentを呼び出した順に指定する必要があります。
+	// 変数名がハイフンから始まる--ph_cut、--xrange、--rem_tracksは省略可能かつ指定順序任意で、省略した場合はそれぞれデフォルト値が使われます。
 
 	try
 	{
-		// コマンドライン引数を解析する。
+		// ----------コマンドライン引数の解析----------
 		parser.parse_args(argc, argv);
 	}
 	catch (const std::exception& err)
 	{
 		// もし引数解析でエラーが発生した場合（大抵は引数の与え方が間違っていた場合）、
-		// エラーメッセージを表示し、ヘルプを表示してプログラムを終了する。
+		// エラーメッセージを表示し、ヘルプを表示してプログラムを終了します。
 		std::cerr << err.what() << std::endl;
 		std::cerr << parser;
 		std::exit(1);
 	}
 
+	// ----------与えられた引数の取得----------
 	std::string input_filename = parser.get<std::string>("input_filename");
 	std::string output_filename = parser.get<std::string>("output_filename");
 	int ph_cut = parser.get<int>("ph_cut");

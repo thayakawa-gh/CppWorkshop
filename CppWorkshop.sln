@@ -105,6 +105,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extra", "Extra", "{82E4C74E
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "argparse_test", "argparse_test\argparse_test.vcxproj", "{2E9FF27C-994D-4BA2-B190-66B75A1EF4DB}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "yamlcpp_test", "yamlcpp_test\yamlcpp_test.vcxproj", "{87D470A2-3BC4-407C-8665-67A8CB422381}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -425,6 +427,14 @@ Global
 		{2E9FF27C-994D-4BA2-B190-66B75A1EF4DB}.Release|x64.Build.0 = Release|x64
 		{2E9FF27C-994D-4BA2-B190-66B75A1EF4DB}.Release|x86.ActiveCfg = Release|Win32
 		{2E9FF27C-994D-4BA2-B190-66B75A1EF4DB}.Release|x86.Build.0 = Release|Win32
+		{87D470A2-3BC4-407C-8665-67A8CB422381}.Debug|x64.ActiveCfg = Debug|x64
+		{87D470A2-3BC4-407C-8665-67A8CB422381}.Debug|x64.Build.0 = Debug|x64
+		{87D470A2-3BC4-407C-8665-67A8CB422381}.Debug|x86.ActiveCfg = Debug|Win32
+		{87D470A2-3BC4-407C-8665-67A8CB422381}.Debug|x86.Build.0 = Debug|Win32
+		{87D470A2-3BC4-407C-8665-67A8CB422381}.Release|x64.ActiveCfg = Release|x64
+		{87D470A2-3BC4-407C-8665-67A8CB422381}.Release|x64.Build.0 = Release|x64
+		{87D470A2-3BC4-407C-8665-67A8CB422381}.Release|x86.ActiveCfg = Release|Win32
+		{87D470A2-3BC4-407C-8665-67A8CB422381}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -469,6 +479,7 @@ Global
 		{7D7F00E8-8819-4400-A1C0-F3D23304D204} = {27EB253E-ADB5-4280-9376-2159447CC5DA}
 		{47AE43ED-57B6-4927-8523-B1C726CB9D4E} = {27EB253E-ADB5-4280-9376-2159447CC5DA}
 		{2E9FF27C-994D-4BA2-B190-66B75A1EF4DB} = {82E4C74E-C720-4516-9929-B5A8E32E6A9A}
+		{87D470A2-3BC4-407C-8665-67A8CB422381} = {82E4C74E-C720-4516-9929-B5A8E32E6A9A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D95497B9-49FC-46FE-A8FA-03030E4B2CA4}

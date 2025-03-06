@@ -1,0 +1,39 @@
+# ハッシュマーク（#）で始まる行はコメントとして扱われ無視されます。
+
+# scalarの書き方。
+ThrChiSquare: 20.0
+CutMode: WithScattering
+
+# sequenceの書き方1。ハイフン（-）を使って一行ずつ書き下しています。
+ECCDirs:
+  - K:/data/hogehoge/fugafuga/ECC1
+  - I:/data/hogehoge/fugafuga/ECC2
+  - T:/data/hogehoge/fugafuga/ECC3
+
+# sequenceの書き方2。角括弧[]で囲み列挙することもできます。
+RadAngAccuracy: [ 0.0024, 0.0042, 0.0059, 0.0075, 0.0093, 0.0116, 0.0132, 0.0158, 0.0194, 0.0225 ]
+LatAngAccuracy: [ 0.0021, 0.0022, 0.0021, 0.0023, 0.0024, 0.0022, 0.0026, 0.0026, 0.0025, 0.0027 ]
+
+# mapの書き方。
+Materials:
+  Base:
+    Thickness: 210
+    RadiationLength: 413.1
+  Emulsion:
+    Thickness: 70
+    RadiationLength: 30.3
+  Iron:
+    Thickness: 500
+    RadiationLength: 17.18
+  Water:
+    Thickness: 2300
+    RadiationLength: 360.8
+
+# sequenceの中にmapを入れたり、mapの中にsequenceを入れたりすることもできます。
+Parts:
+  - Name: Film
+    Structure: [ Emulsion, Base, Emulsion ]
+  - Name: Unit
+    Structure: [ Film, Iron, Film ]
+  - Name: ECC
+    Structure: [ Unit, Water, Unit, Water, Unit ]
