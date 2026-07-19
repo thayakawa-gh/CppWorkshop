@@ -1,66 +1,66 @@
-#include <argparse/argparse.hpp> // <- ���܂��Ȃ��Bargparse���g�����߂ɕK�v�ȃw�b�_�t�@�C�����C���N���[�h����B
+#include <argparse/argparse.hpp> // <- おまじない。argparseを使うために必要なヘッダファイルをインクルードする。
 #include <iostream>
 
-// #### �v���O�������s���ɗ^����R�}���h���C��������ǂݍ��݁A�v���O�����̋����𒲐�������@�B
-// ���炩�̃v���O���������s����Ƃ��A���̃v���O�����ɑ΂��ăp�����[�^��^���ċ����𒲐��������Ȃ邱�Ƃ����΂��΂���܂��B
-// �V���v���ȗ�Ō����΁A����Basetrack�̃t�@�C����ǂݍ��݁APH�J�b�g�������Ďc����Basetrack���o�͂������ƍl�����Ƃ��A
-// ����PH臒l���v���O�������ɒ��ڏ����Ă��܂��ƁAPH臒l���O����ύX�ł��Ȃ��Ȃ��Ă��܂��܂��B
-// �������Ⴆ�Έȉ��̂悤�ɁA���s���ɊO����R�}���h���C�������Ƃ���臒l��n�����Ƃ��ł���΁A���������R�[�h���C�����Ȃ��Ă�臒l�̕ύX���\�ł��B
+// #### プログラム実行時に与えるコマンドライン引数を読み込み、プログラムの挙動を調整する方法。
+// 何らかのプログラムを実行するとき、そのプログラムに対してパラメータを与えて挙動を調整したくなることがしばしばあります。
+// シンプルな例で言えば、あるBasetrackのファイルを読み込み、PHカットをかけて残ったBasetrackを出力したいと考えたとき、
+// このPH閾値をプログラム中に直接書いてしまうと、PH閾値を外から変更できなくなってしまいます。
+// しかし例えば以下のように、実行時に外からコマンドライン引数として閾値を渡すことができれば、いちいちコードを修正しなくても閾値の変更が可能です。
 // program_name.exe --ph_cut 20
-// ���������������@�͐F�X�Ƃ���܂����A�����ł͑��삪�悭�g�����@���Љ�܂��B
+// これを実現する方法は色々とありますが、ここでは早川がよく使う方法を紹介します。
 
-// #### argparse�T�v
-// C++�ɂ́A�R�}���h���C���������V���v���Ɉ������߂̋@�\���W���ŗp�ӂ���Ă��܂���B
-// NETSCAN�Ȃǂ͌��\�ȗ͋Ƃł�����������Ă��܂����A���p���̒Ⴓ���v���Ɨǂ����@�ł͂Ȃ��ł��傤�B
-// �����ŁAargparse�Ƃ������C�u�������g�����Ƃ������߂��܂��B
-// argparse�̓T�[�h�p�[�e�B�����C�u�����ŁA�ȉ���GitHub���|�W�g���Ō��J����Ă��܂��B
+// #### argparse概要
+// C++には、コマンドライン引数をシンプルに扱うための機能が標準で用意されていません。
+// NETSCANなどは結構な力業でこれを実装していますが、余計な依存ライブラリを増やさないメリットこそあれ、どうしてもコードが長たらしくなってしまいますし、メンテナンスも大変です。
+// そこで、argparseというライブラリを使うことをお勧めします。
+// argparseはサードパーティ製ライブラリで、以下のGitHubリポジトリで公開されています。
 // https://github.com/p-ranav/argparse
-// �R�}���h���C�������Ƃ��Ď󂯎�����l����ǂ��A�p�����[�^���ȒP�Ɏ��o����悤�ɂ���֗��ȃ��C�u�����ł��B
-// �V���O���w�b�_�̂��ߓ������₷���A�g�������V���v���ł��B
+// コマンドライン引数として受け取った値を解読し、パラメータを簡単に取り出せるようにする便利なライブラリです。
+// シングルヘッダのため導入しやすく、使い方もシンプルです。
 
-// �������@�iVisual Studio�̏ꍇ�j ���\�[�X�t�@�C���̉摜�iargparse.png�j���Q�ƁB
-// 1. E:\udd\hayakawa\prg\ThirdParty�ɂ���argparse-3.2�t�H���_���A�C�ӂ̃��[�J���ȃt�H���_�ȂǂɃR�s�y����B�������GitHub���璼�ړ��肵�Ă��ǂ��B
-// 2. Visual Studio��argparse���g�������v���W�F�N�g���J���B
-// 3. �\�����[�V�����G�N�X�v���[���[�i����Visual Studio�̃E�B���h�E�E���ɂ���܂��j����A�v���W�F�N�g�����E�N���b�N���A�v���p�e�B��I���B
-// 4. �u�\���v���p�e�B�v���uVC++ �f�B���N�g���v���u�C���N���[�h�f�B���N�g���v�ɁAargparse�̃R�s�[��t�H���_��ǉ�����B
-// 5. �u�\���v���p�e�B�v���uC/C++�v���u����v���uC++����W���v���u/std:c++17�v�Ȃ���������17�ȏ�̂��̂�I���B/std:c++20�ȏォ/std:c++latest�𐄏��B
+// 導入方法（Visual Studioの場合） リソースファイルの画像（argparse.png）も参照。
+// 1. E:\udd\hayakawa\prg\ThirdPartyにあるargparse-3.2フォルダを、任意のローカルなフォルダなどにコピペする。もちろんGitHubから直接入手しても良い。
+// 2. Visual Studioでargparseを使いたいプロジェクトを開く。
+// 3. ソリューションエクスプローラー（大抵はVisual Studioのウィンドウ右側にあります）から、プロジェクト名を右クリックし、プロパティを選択。
+// 4. 「構成プロパティ」→「VC++ ディレクトリ」→「インクルードディレクトリ」に、argparseのコピー先フォルダを追加する。
+// 5. 「構成プロパティ」→「C/C++」→「言語」→「C++言語標準」→「/std:c++17」ないし数字が17以上のものを選択。/std:c++20以上か/std:c++latestを推奨。
 
-// argc�Aargv�ɂ͗^����ꂽ�R�}���h���C�������̏�񂪊i�[����Ă��܂��B�����ł͏ڍׂ͉�����܂���B
+// argc、argvには与えられたコマンドライン引数の情報が格納されています。ここでは詳細は解説しません。
 int main(char argc, char* argv[])
 {
-	// ----------�R�}���h���C�������̒�`----------
+	// ----------コマンドライン引数の定義----------
 	argparse::ArgumentParser parser("This is a test program.");
 
 	parser.add_argument("input_filename").help("input file name");
 	parser.add_argument("output_filename").help("output file name");
 
-	// �����^���󂯎�肽���Ƃ���scan<'i', int>()���g���܂��B
+	// 整数型を受け取りたいときはscan<'i', int>()を使います。
 	parser.add_argument("--ph_cut").help("PH cut threshold").scan<'i', int>().default_value(20);
-	// ���������_�^���󂯎�肽���Ƃ���scan<'f', double>()�Ŏw�肵�܂��B
-	// �܂������̒l���󂯎�肽���ꍇ�Anargs(num)�Ȃ���nargs(min, max)�̂悤�ɐ����w�肷�邱�Ƃ��ł��܂��B
+	// 浮動小数点型を受け取りたいときはscan<'f', double>()で指定します。
+	// また複数の値を受け取りたい場合、nargs(num)ないしnargs(min, max)のように数を指定することができます。
 	parser.add_argument("--xrange").help("xmin xmax").scan<'f', double>().default_value(std::vector<double>()).nargs(2);
 	parser.add_argument("--rem_tracks").help("output filename for removed track list").default_value(std::string());
 
-	// ��L�̈�����`���ƁA���̂悤�ɂ��̃v���O���������s���邱�Ƃ��ł��܂��B
+	// 上記の引数定義だと、次のようにこのプログラムを実行することができます。
 	// program_name.exe input.txt output.txt --ph_cut 20 --rem_tracks removed_tracks.txt --xrange 350000 400000
-	// input.txt��output.txt�͕K�{�ŁAprogram_name.exe�ɑ�����add_argument���Ăяo�������Ɏw�肷��K�v������܂��B
-	// �ϐ������n�C�t������n�܂�--ph_cut�A--xrange�A--rem_tracks�͏ȗ��\���w�菇���C�ӂŁA�ȗ������ꍇ�͂��ꂼ��f�t�H���g�l���g���܂��B
+	// input.txtとoutput.txtは必須で、program_name.exeに続けてadd_argumentを呼び出した順に指定する必要があります。
+	// 変数名がハイフンから始まる--ph_cut、--xrange、--rem_tracksは省略可能かつ指定順序任意で、省略した場合はそれぞれデフォルト値が使われます。
 
 	try
 	{
-		// ----------�R�}���h���C�������̉��----------
+		// ----------コマンドライン引数の解析----------
 		parser.parse_args(argc, argv);
 	}
 	catch (const std::exception& err)
 	{
-		// ����������͂ŃG���[�����������ꍇ�i���͈����̗^�������Ԉ���Ă����ꍇ�j�A
-		// �G���[���b�Z�[�W��\�����A�w���v��\�����ăv���O�������I�����܂��B
+		// もし引数解析でエラーが発生した場合（大抵は引数の与え方が間違っていた場合）、
+		// エラーメッセージを表示し、ヘルプを表示してプログラムを終了します。
 		std::cerr << err.what() << std::endl;
 		std::cerr << parser;
 		std::exit(1);
 	}
 
-	// ----------�^����ꂽ�����̎擾----------
+	// ----------与えられた引数の取得----------
 	std::string input_filename = parser.get<std::string>("input_filename");
 	std::string output_filename = parser.get<std::string>("output_filename");
 	int ph_cut = parser.get<int>("ph_cut");
