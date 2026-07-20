@@ -18,23 +18,30 @@ for loopの復習、イテレータ、`std::vector`による配列操作
 クラスの取り扱いの基礎
 #### 第04回 [read_text](read_text)、[read_text_faster](read_text_faster)、[write_text](write_text)
 C++流のファイルの読み書き
+#### 第05回
+バイナリファイルの取り扱い
 
 ### ―――基礎編―――
-### 第05回 [reference](reference)、[pointer](pointer)、[dangling](dangling)
+#### 第06回
+ソースファイルの分割とライブラリの作成
+#### 第07回 [reference](reference)、[pointer](pointer)、[dangling](dangling)
 参照型/ポインタ型の取り扱い
-### 第06回 [new_delete](new_delete)
+#### 第08回 [new_delete](new_delete)
 動的メモリ確保、解放
-### 第07回 [unique_ptr](unique_ptr)、[shared_ptr](shared_ptr)、[cyclic_reference](cyclic_reference)
+#### 第09回 [unique_ptr](unique_ptr)、[shared_ptr](shared_ptr)、[cyclic_reference](cyclic_reference)
 new/deleteを置き換えるスマートポインタの使い方
-### 第08回 [derived_class](derived_class)、[virtual_function](virtual_function)、[utilization_of_virtual_function](utilization_of_virtual_function)
-派生クラスと仮想関数
-### 第09回 [function_template](function_template)、[class_template](class_template)
+#### 第10回 [function_template](function_template)、[class_template](class_template)
 関数テンプレート、クラステンプレート
 
 ### ―――実用編―――
-### 第10回 [map](map)、[map_with_any_type](map_with_any_type)、[unordered_map](unordered_map)
+#### 第11回 [map](map)、[map_with_any_type](map_with_any_type)、[unordered_map](unordered_map)
 `std::map`、`std::unordered_map`の使い方
-### 第11回 [hash_with_pos_and_ang](hash_with_pos_and_ang)
+#### 第12回 [hash_with_pos_and_ang](hash_with_pos_and_ang)
 位置角度を用いたハッシュ化の具体例
-### 番外編 [argparse_test](argparse_test)、[yamlcpp_test](yamlcpp_test)
+#### 第13回 [argparse_test](argparse_test)、[yamlcpp_test](yamlcpp_test)
 プログラムのパラメータを外部から受け取る（ソフトコーディング）方法の例として、argparseとyaml-cppの使い方
+
+
+### ―――応用編―――
+#### 第??回 [derived_class](derived_class)、[virtual_function](virtual_function)、[utilization_of_virtual_function](utilization_of_virtual_function)
+派生クラスと仮想関数
