@@ -36,7 +36,22 @@ int main()
 	{
 		// 「*」によって、itの指している要素の値を取得。
 		double x = *it;
-		std::cout << x << " " << std::endl;
+		*it = 3 * x; // 代入も可能です。
+		std::cout << std::format("{:.1f} -> {:.1f}\n", x, *it);
+	}
+
+	// 比較的新しいC++には、右辺の型を自動で推論し変数型を決定してくれるautoという機能があります。
+	// auto x = 52; // xはint型として扱われます。
+	// auto y = 3.14; // yはdouble型として扱われます。
+	// std::vector<...>::iteratorなどと毎回書くのは大変なので、autoを使うと便利です。
+	auto it2 = vec.begin();// std::vector<double>::iterator it2 = vec.begin();と同等です。
+	auto end2 = vec.end();// std::vector<double>::iterator end2 = vec.end();と同等です。
+	for (; it2 != end2; ++it2)
+	{
+		// 「*」によって、it2の指している要素の値を取得。
+		double x = *it2;
+		*it2 = 3 * x; // 代入も可能です。
+		std::cout << std::format("{:.1f} -> {:.1f}\n", x, *it2);
 	}
 
 
@@ -44,21 +59,21 @@ int main()
 	// 毎回std::vector<double>::iteratorなどと書くのは大変なので、
 	// 全要素を走査する場合はもっと簡単な、range-based for loopと呼ばれる書き方が用意されています。
 	// これは以下のように記述するもので、上のイテレータを使ったループと等価です。
-	for (double x : vec)
+	for (double x : vec)// for (auto x : vec)でも同等です。
 	{
-		std::cout << x << " " << std::endl;
+		std::cout << x << std::endl;
 	}
 
 	// もしvecの要素を修正したい場合は、double& xと書きましょう。
-	for (double& x : vec)
+	for (double& x : vec)// for (auto& x : vec)でも同等です。
 	{
 		// 全ての要素を2倍にします。
 		x *= 2;
 	}
 	// vecを修正しない場合は、const double&としても構いません。
-	for (const double& x : vec)
+	for (const double& x : vec)// for (const auto& x : vec)でも同等です。
 	{
-		std::cout << x << " " << std::endl;
+		std::cout << x << std::endl;
 	}
 	// constやら&やらの意味は「ポインタと参照」の回で説明します。多分。
 
@@ -68,7 +83,7 @@ int main()
 
 /*
  問題1
- 30個の要素を持つstd::vector<int>型の変数を作成し、1～30の要素を持たせましょう。
+ 30個の要素を持つstd::vector<int>型の変数を作成し、forループを使ってそれぞれに順に1～30の要素を持たせましょう。
  その後、イテレータを使ったループを用いて、全要素の和を計算してみましょう。
  結果が465になることを確認してください。
 
