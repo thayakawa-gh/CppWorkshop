@@ -32,12 +32,33 @@
 int main()
 {
 	// 例1
+	std::cout << "Example 1\n";
 	for (int x = 0; x < 3; ++x)
 	{
 		std::cout << std::format("x is {}\n", x);
 	}
 
 	// 例2
+	std::cout << "Example 2\n";
+	for (int x = 0; x < 5; ++x)
+	{
+		// x % 3はxを3で割ったときの余りを求めています。
+		// 余りが0、すなわちxが3で割り切れるとき、ifの条件が満たされるため、
+		// x is divisible by 3と表示されます。
+		// 余りが0でない、すなわちxが3で割り切れないとき、ifの条件が満たされないため、
+		// elseの処理が実行され、x is not divisible by 3と表示されます。
+		if (x % 3 == 0)
+		{
+			std::cout << std::format("{} is divisible by 3\n", x);
+		}
+		else
+		{
+			std::cout << std::format("{} is not divisible by 3\n", x);
+		}
+	}
+
+	// 例3
+	std::cout << "Example 3\n";
 	for (int x = 0; x < 5; ++x)
 	{
 		// x % 2はxを2で割ったときの余りを求めています。
@@ -45,10 +66,11 @@ int main()
 		// std::cout << std::format...が実行されることなく次のループに進むことになります。
 		if (x % 2 == 0)
 			continue;
-		std::cout << std::format("x is {}\n", x);
+		std::cout << std::format("{} is odd\n", x);
 	}
 
-	// 例3
+	// 例4
+	std::cout << "Example 4\n";
 	for (int x = 0; x < 5; ++x)
 	{
 		// x == 4となったとき、breakが実行され、

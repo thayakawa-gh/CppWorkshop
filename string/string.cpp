@@ -37,6 +37,7 @@ int main()
 	// 文字列の結合
 	std::string str3 = str1 + " " + str2;
 	std::cout << "str3 is \"" << str3 << "\"" << std::endl;
+	// str3 is "Hello World"
 
 	// 文字列の追加
 	str3 += "!";
@@ -45,6 +46,7 @@ int main()
 	// 部分文字列の抽出
 	std::string str4 = str3.substr(6, 5);//Hello Worldの6文字目から5文字分を抽出。
 	std::cout << "str4 = str3.substr(6, 5) : " << str4 << std::endl;
+	// str4 = str3.substr(6, 5) : World
 
 	// 文字列の長さ
 	std::cout << "Length of str3 : " << str3.length() << std::endl;
@@ -92,7 +94,7 @@ int main()
 /*
 問題
 std::string型の変数を受け取ってその中から"Bonjour"という文字列を検索し、
-見つかった場合は"Buon giorno"に置換して返す、という関数を作ってみましょう。
+見つかった場合は"Buon giorno"に置換して返す、という関数Replaceを作ってみましょう。
 find()、replace()を使ってください。
 std::string Replace(std::string str)
 {
