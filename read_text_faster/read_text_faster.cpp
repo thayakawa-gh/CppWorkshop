@@ -16,6 +16,7 @@ std::from_chars_result Parse_impl(const char* pos, const char* last, Value& v, V
 	auto res = std::from_chars(pos, last, v);
 	if (res.ec != std::errc{}) return res;
 	if (res.ptr != last) return Parse_impl(res.ptr, last, vs...);
+	if constexpr (sizeof...(Values) > 0) return std::from_chars_result{ res.ptr, std::errc::invalid_argument };
 	return std::from_chars_result{ last, std::errc{} };
 }
 template <class ...Values>
@@ -51,7 +52,12 @@ int main()
 	while (std::getline(ifs, buf))
 	{
 		// スペースやタブなどの空白文字区切りで数値が入っているstringから、各数値をa～dに格納しています。
-		Parse(buf, a, b, c, d);
+		std::from_chars_result res = Parse(buf, a, b, c, d);
+		if (res.ec != std::errc{})
+		{
+			std::cerr << "Failed to parse line: " << buf << std::endl;
+			return 1;
+		}
 		std::cout << std::format("a = {}, b = {}, c = {}, d = {}\n", a, b, c, d);
 	}
 }

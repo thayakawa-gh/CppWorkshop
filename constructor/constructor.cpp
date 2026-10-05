@@ -62,12 +62,7 @@ public:
 		std::cout << "basetrack constructor 2" << std::endl;
 	}
 
-	Basetrack(const Basetrack& bt)
-		: pl(bt.pl), rawid(bt.rawid), ph(bt.ph), ax(bt.ax), ay(bt.ay), x(bt.x), y(bt.y), z(bt.z),
-		mt{ bt.mt[0], bt.mt[1] }
-	{
-		std::cout << "basetrack copy constructor" << std::endl;
-	}
+
 	~Basetrack()
 	{
 		std::cout << "basetrack destructor" << std::endl;
@@ -96,7 +91,7 @@ public:
 	int ph;
 	double ax, ay;
 	double x, y, z;
-	Microtrack mt[2];
+	Microtrack mt[2];//mt[0], mt[1]
 };
 
 /*
@@ -142,7 +137,7 @@ public:
 */
 int main()
 {
-	if (false)
+	if (true)
 	{
 		// bt1を初期化。デフォルトコンストラクタが呼ばれます。
 		Basetrack bt1;
@@ -151,7 +146,7 @@ int main()
 		// if、for、関数などのスコープ{}を抜けるとき、デストラクタが呼ばれます。
 	}
 
-	if (false)
+	if (true)
 	{
 		// bt2を初期化。引数ありのコンストラクタが呼ばれます。
 		Basetrack bt2(30, 12345, 250128, -0.1454, 2.6841, 235616.1, 96732.4, 0.0);
@@ -170,6 +165,7 @@ int main()
 
 		// bt2の初期化。コピーコンストラクタによってbt1の値がコピーされます。
 		Basetrack bt4(bt3);
+		std::cout << std::format("bt4...x: {}, y: {}, z: {}\n", bt4.x, bt4.y, bt4.z);
 
 		std::cout << "----------------" << std::endl;
 

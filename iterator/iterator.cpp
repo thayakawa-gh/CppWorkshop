@@ -68,6 +68,14 @@ int main()
 		std::cout << x << std::endl;
 	}
 
+	auto it = vec.begin();
+	auto end = vec.end();
+	for (; it != end; ++it)
+	{
+		double x = *it;
+		std::cout << x << std::endl;
+	}
+
 	// もしvecの要素を修正したい場合は、double& xと書きましょう。
 	for (double& x : vec)// for (auto& x : vec)でも同等です。
 	{

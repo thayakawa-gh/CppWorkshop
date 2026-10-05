@@ -3,17 +3,63 @@
 #include <vector>
 #include <format>
 
-struct Data
+class Data
 {
+public:
 	int a, b;
 	double c, d;
 };
 
 int main()
 {
-	// write_binaryを先に実行し、data.binを作成しておいてください。
-	std::ifstream ifs("../write_binary/data.bin", std::ios::binary);
-	if (!ifs)
+	// バイナリ形式のファイルもstd::ifstreamで読み込むことが出来ます。
+	// std::ios::binaryを指定するのを忘れないようにしてください。
+
+	/*
+	!!注意!!
+	バイナリファイルを読み込む場合、書き込み側と型のサイズ、構造体の配置などが同じであることが前提となります。
+	例えばここで、
+	class Data2
+	{
+	public:
+		int a;
+		float b;
+		double c;
+	};
+	のようなwrite_binary側で定義したDataと異なるクラスを定義してここに無理やり読み込むと、不正なデータが出来上がります。
+	必ずwrite_binary側と同じ定義のクラスを用意してください。
+	*/
+
+	// 方法1. 1要素ずつ読み込む方法
+	std::ifstream ifs_list1("../write_binary/data_list1.bin", std::ios::binary);
+	if (!ifs_list1)
+	{
+		std::cerr << "Failed to open file." << std::endl;
+		return 1;
+	}
+	std::vector<Data> vec1;
+	Data tmp;
+	while (ifs_list1.read(reinterpret_cast<char*>(&tmp), sizeof(Data)))
+	{
+		vec1.push_back(tmp);
+	}
+	// 読み込みエラーのチェック。
+	if (ifs_list1.bad() || !ifs_list1.eof() || ifs_list1.gcount() != 0)
+	{
+		std::cerr << "Failed to read complete data.\n";
+		return 1;
+	}
+
+	// 中身の確認
+	for (const Data& d : vec1)
+	{
+		std::cout << std::format("a = {:>4}, b = {:>4}, c = {:>3.1f}, d = {:>3.1f}\n", d.a, d.b, d.c, d.d);
+	}
+
+
+	// 方法2. ファイルサイズを求めてまとめて読み込む方法
+	std::ifstream ifs_list2("../write_binary/data_list1.bin", std::ios::binary);
+	if (!ifs_list2)
 	{
 		std::cerr << "Failed to open file." << std::endl;
 		return 1;
@@ -21,18 +67,31 @@ int main()
 
 	// ファイルサイズから要素数を求め、まとめて読み込みます。
 	// seekgでファイルポインタを末尾に移動し、tellgで現在位置（=ファイルサイズ）を取得します。
-	ifs.seekg(0, std::ios::end);
-	std::streamoff size = ifs.tellg();
-	ifs.seekg(0, std::ios::beg); // 読み込み位置を先頭に戻す
+	ifs_list2.seekg(0, std::ios::end);
+	std::streamoff size = ifs_list2.tellg();
+	ifs_list2.seekg(0, std::ios::beg); // 読み込み位置を先頭に戻す
 
-	std::vector<Data> vec(size / sizeof(Data));
+	if (size % sizeof(Data) != 0)
+	{
+		// ファイルサイズがDataのサイズの倍数でない場合、ファイルが壊れているのでエラーとします。
+		std::cerr << "File size is not a multiple of Data size." << std::endl;
+		return 1;
+	}
+
+	std::vector<Data> vec2(size / sizeof(Data));
 	// ifstream::read(先頭アドレス, バイト数)で、ファイルの中身を
 	// 指定したアドレス以降のメモリにそのまま読み込みます。
-	ifs.read(reinterpret_cast<char*>(vec.data()), size);
-
-	for (const Data& d : vec)
+	if (!ifs_list2.read(reinterpret_cast<char*>(vec2.data()), size))
 	{
-		std::cout << std::format("a = {}, b = {}, c = {}, d = {}\n", d.a, d.b, d.c, d.d);
+		// 読み込みに失敗した場合はエラーとします。
+		std::cerr << "Failed to read data." << std::endl;
+		return 1;
+	}
+
+	// 中身の確認
+	for (const Data& d : vec2)
+	{
+		std::cout << std::format("a = {:>4}, b = {:>4}, c = {:>3.1f}, d = {:>3.1f}\n", d.a, d.b, d.c, d.d);
 	}
 }
 

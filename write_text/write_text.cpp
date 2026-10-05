@@ -44,4 +44,10 @@ int main()
  問題1、2でbasetracks.txtを読み込みstd::vector<Basetrack>を作るところまではできたと思います。
  では、このstd::vector<Basetrack>のうち、PHが20以上のBasetrackのみを抽出して、
  テキストファイルに出力するコードを追加してみましょう。
+ int ph = 210041;
+ if (int(ph / 10000) >= 20)
+ {
+	 // PHが20以上のBasetrackの処理
+ }
+
 */

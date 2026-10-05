@@ -30,7 +30,12 @@ int main()
 		// bufには"11 12 1.3 1.4"のように、1行分の文字列が入っています。
 		// この文字列を空白文字で区切り、それぞれの部分を>>を用いて変数a～dに格納しています。
 		std::istringstream iss(buf);
-		iss >> a >> b >> c >> d;
+		if (!(iss >> a >> b >> c >> d))
+		{
+			// もし、bufの中身が"11 12 1.3 1.4"のように正しく数値に変換できない場合は、エラーメッセージを出力して終了します。
+			std::cerr << "Failed to parse line: " << buf << std::endl;
+			return -1;
+		}
 		std::cout << std::format("a = {}, b = {}, c = {}, d = {}\n", a, b, c, d);
 	}
 }

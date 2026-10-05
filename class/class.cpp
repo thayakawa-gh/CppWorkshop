@@ -27,6 +27,10 @@ std::string FormatBasetrack(const Basetrack& bt)
 	return std::format("{:0>3} {:>10} {:>6} {:>7.4f} {:>7.4f} {:>9.1f} {:>9.1f}\n",
 		bt.pl, bt.rawid, bt.ph, bt.ax, bt.ay, bt.x, bt.y);
 }
+void Edit(Basetrack& bt)
+{
+	bt.ax = bt.ax * 1.1;
+}
 
 int main()
 {
