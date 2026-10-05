@@ -7,10 +7,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="function_template.cpp">
+    <ClCompile Include="answer_smart_unique_ptr.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="class_template.cpp">
+    <ClCompile Include="answer_smart_shared_ptr.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

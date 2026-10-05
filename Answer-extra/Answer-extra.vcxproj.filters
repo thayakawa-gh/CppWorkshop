@@ -7,10 +7,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="answer_reference.cpp">
+    <ClCompile Include="derived_class.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="answer_pointer.cpp">
+    <ClCompile Include="utilization_of_virtual_function.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

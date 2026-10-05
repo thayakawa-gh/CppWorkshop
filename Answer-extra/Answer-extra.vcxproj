@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{8111ff2d-0093-462d-ba56-5cd539808181}</ProjectGuid>
-    <RootNamespace>Answer06</RootNamespace>
+    <ProjectGuid>{85d8bba6-7d4f-41d4-8378-36f595dc3d63}</ProjectGuid>
+    <RootNamespace>Answer08</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -129,12 +129,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="answer_new_delete.cpp" />
-    <ClCompile Include="answer_smart_pointer1.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="answer_smart_pointer2.cpp" />
+    <ClCompile Include="derived_class.cpp" />
+    <ClCompile Include="utilization_of_virtual_function.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

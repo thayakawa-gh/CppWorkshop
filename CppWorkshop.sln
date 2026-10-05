@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.8.34330.188
+# Visual Studio Version 18
+VisualStudioVersion = 18.9.12112.369 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Answer-01", "Answer-01\Answer-01.vcxproj", "{C5F33CAF-13C2-469C-9AC7-B05B54FB4C2A}"
 EndProject
@@ -31,13 +31,21 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "constructor", "constructor\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "member_function", "member_function\member_function.vcxproj", "{01C517D2-0F0D-476E-8DA7-12A5E02061B8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lecture-07", "Lecture-07", "{052F7205-9274-4604-B14C-B4A7ABE4F4A2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lecture-05", "Lecture-05", "{F897C39B-3EBB-4A7A-8671-F9F78358837C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "write_binary", "write_binary\write_binary.vcxproj", "{53DACA41-66A4-42B8-AE94-E93677EE487C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "read_binary", "read_binary\read_binary.vcxproj", "{E7E30E11-7C05-4DD4-A270-A2921DC78504}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Answer-05", "Answer-05\Answer-05.vcxproj", "{03D36DA0-F75C-463C-8808-4F6DADF26073}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lecture-09", "Lecture-09", "{052F7205-9274-4604-B14C-B4A7ABE4F4A2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "derived_class", "derived_class\derived_class.vcxproj", "{50CAA0E9-547E-4C8A-A76E-4925B4D1A191}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "virtual_function", "virtual_function\virtual_function.vcxproj", "{C0666DF2-3235-4B1C-96F3-2C698960499C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lecture-05", "Lecture-05", "{D70A1375-5E1C-4E7F-A861-E0E38CE002AD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lecture-07", "Lecture-07", "{D70A1375-5E1C-4E7F-A861-E0E38CE002AD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "read_text", "read_text\read_text.vcxproj", "{17C78134-1C79-4662-9ED7-16C97F303693}"
 EndProject
@@ -55,19 +63,19 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Answer-04", "Answer-04\Answ
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "reference", "reference\reference.vcxproj", "{75896832-BCD8-4BE6-A277-CB8A331392D2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lecture-06", "Lecture-06", "{3BCF926A-098A-497F-9CF4-C2816C32F8C0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lecture-08", "Lecture-08", "{3BCF926A-098A-497F-9CF4-C2816C32F8C0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dangling", "dangling\dangling.vcxproj", "{87BA05DC-3046-4293-A315-9192987396EC}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Answer-05", "Answer-05\Answer-05.vcxproj", "{29C5684A-13A2-4C31-ACD7-3E79F2A498E5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Answer-07", "Answer-07\Answer-07.vcxproj", "{29C5684A-13A2-4C31-ACD7-3E79F2A498E5}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Answer-06", "Answer-06\Answer-06.vcxproj", "{8111FF2D-0093-462D-BA56-5CD539808181}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Answer-08", "Answer-08\Answer-08.vcxproj", "{8111FF2D-0093-462D-BA56-5CD539808181}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cyclic_reference", "cyclic_reference\cyclic_reference.vcxproj", "{077637FA-16F8-4DAF-8A98-7102D4035D9C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lecture-08", "Lecture-08", "{53FE1945-9A6C-4C3E-BA2D-D7390DB4FE6C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lecture-extra", "Lecture-extra", "{53FE1945-9A6C-4C3E-BA2D-D7390DB4FE6C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Answer-07", "Answer-07\Answer-07.vcxproj", "{3792F485-A912-4E76-B3FD-B039B91AFDDA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Answer-09", "Answer-09\Answer-09.vcxproj", "{3792F485-A912-4E76-B3FD-B039B91AFDDA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "utilization_of_virtual_function", "utilization_of_virtual_function\utilization_of_virtual_function.vcxproj", "{819FCD19-7E0A-4D39-A7A9-F9C76D4C8D19}"
 EndProject
@@ -75,33 +83,33 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unique_ptr", "unique_ptr\un
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "shared_ptr", "shared_ptr\shared_ptr.vcxproj", "{B5317520-07FA-4765-9E3E-24BCDF32D49B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lecture-09", "Lecture-09", "{BC309DA1-05AD-427D-8860-E6649108A4A0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lecture-10", "Lecture-10", "{BC309DA1-05AD-427D-8860-E6649108A4A0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "function_template", "function_template\function_template.vcxproj", "{47346B92-89BD-4CAE-8EC3-95CE469553DD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Answer-08", "Answer-08\Answer-08.vcxproj", "{85D8BBA6-7D4F-41D4-8378-36F595DC3D63}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Answer-extra", "Answer-extra\Answer-extra.vcxproj", "{85D8BBA6-7D4F-41D4-8378-36F595DC3D63}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lecture-10", "Lecture-10", "{8029829A-3967-4C7E-9637-E474FD0E425C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lecture-11", "Lecture-11", "{8029829A-3967-4C7E-9637-E474FD0E425C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "class_template", "class_template\class_template.vcxproj", "{E61BE273-3BB4-49C3-98FD-28BB02462876}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Answer-09", "Answer-09\Answer-09.vcxproj", "{0A98B983-FA9D-4617-8E86-C7550C6B67E0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Answer-10", "Answer-10\Answer-10.vcxproj", "{0A98B983-FA9D-4617-8E86-C7550C6B67E0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "map", "map\map.vcxproj", "{FD400190-BADA-4D63-94F8-805667F1D3FF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Answer-10", "Answer-10\Answer-10.vcxproj", "{29AF7F4C-96AC-4466-9CA6-90BDDD11DD9C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Answer-11", "Answer-11\Answer-11.vcxproj", "{29AF7F4C-96AC-4466-9CA6-90BDDD11DD9C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "map_with_any_type", "map_with_any_type\map_with_any_type.vcxproj", "{0EF38CB7-207C-4EE7-9FBF-E3574087FB73}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unordered_map", "unordered_map\unordered_map.vcxproj", "{5873F351-FC7F-4058-8647-B4C83914A63C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lecture-11", "Lecture-11", "{27EB253E-ADB5-4280-9376-2159447CC5DA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lecture-12", "Lecture-12", "{27EB253E-ADB5-4280-9376-2159447CC5DA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hash_with_pos_and_ang", "hash_with_pos_and_ang\hash_with_pos_and_ang.vcxproj", "{7D7F00E8-8819-4400-A1C0-F3D23304D204}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Answer-11", "Answer-11\Answer-11.vcxproj", "{47AE43ED-57B6-4927-8523-B1C726CB9D4E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Answer-12", "Answer-12\Answer-12.vcxproj", "{47AE43ED-57B6-4927-8523-B1C726CB9D4E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extra", "Extra", "{82E4C74E-C720-4516-9929-B5A8E32E6A9A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lecture-13", "Lecture-13", "{82E4C74E-C720-4516-9929-B5A8E32E6A9A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "argparse_test", "argparse_test\argparse_test.vcxproj", "{2E9FF27C-994D-4BA2-B190-66B75A1EF4DB}"
 EndProject
@@ -445,6 +453,30 @@ Global
 		{B19EFBD0-90FA-456F-99C9-D2E341634BAA}.Release|x64.Build.0 = Release|x64
 		{B19EFBD0-90FA-456F-99C9-D2E341634BAA}.Release|x86.ActiveCfg = Release|Win32
 		{B19EFBD0-90FA-456F-99C9-D2E341634BAA}.Release|x86.Build.0 = Release|Win32
+		{53DACA41-66A4-42B8-AE94-E93677EE487C}.Debug|x64.ActiveCfg = Debug|x64
+		{53DACA41-66A4-42B8-AE94-E93677EE487C}.Debug|x64.Build.0 = Debug|x64
+		{53DACA41-66A4-42B8-AE94-E93677EE487C}.Debug|x86.ActiveCfg = Debug|Win32
+		{53DACA41-66A4-42B8-AE94-E93677EE487C}.Debug|x86.Build.0 = Debug|Win32
+		{53DACA41-66A4-42B8-AE94-E93677EE487C}.Release|x64.ActiveCfg = Release|x64
+		{53DACA41-66A4-42B8-AE94-E93677EE487C}.Release|x64.Build.0 = Release|x64
+		{53DACA41-66A4-42B8-AE94-E93677EE487C}.Release|x86.ActiveCfg = Release|Win32
+		{53DACA41-66A4-42B8-AE94-E93677EE487C}.Release|x86.Build.0 = Release|Win32
+		{E7E30E11-7C05-4DD4-A270-A2921DC78504}.Debug|x64.ActiveCfg = Debug|x64
+		{E7E30E11-7C05-4DD4-A270-A2921DC78504}.Debug|x64.Build.0 = Debug|x64
+		{E7E30E11-7C05-4DD4-A270-A2921DC78504}.Debug|x86.ActiveCfg = Debug|Win32
+		{E7E30E11-7C05-4DD4-A270-A2921DC78504}.Debug|x86.Build.0 = Debug|Win32
+		{E7E30E11-7C05-4DD4-A270-A2921DC78504}.Release|x64.ActiveCfg = Release|x64
+		{E7E30E11-7C05-4DD4-A270-A2921DC78504}.Release|x64.Build.0 = Release|x64
+		{E7E30E11-7C05-4DD4-A270-A2921DC78504}.Release|x86.ActiveCfg = Release|Win32
+		{E7E30E11-7C05-4DD4-A270-A2921DC78504}.Release|x86.Build.0 = Release|Win32
+		{03D36DA0-F75C-463C-8808-4F6DADF26073}.Debug|x64.ActiveCfg = Debug|x64
+		{03D36DA0-F75C-463C-8808-4F6DADF26073}.Debug|x64.Build.0 = Debug|x64
+		{03D36DA0-F75C-463C-8808-4F6DADF26073}.Debug|x86.ActiveCfg = Debug|Win32
+		{03D36DA0-F75C-463C-8808-4F6DADF26073}.Debug|x86.Build.0 = Debug|Win32
+		{03D36DA0-F75C-463C-8808-4F6DADF26073}.Release|x64.ActiveCfg = Release|x64
+		{03D36DA0-F75C-463C-8808-4F6DADF26073}.Release|x64.Build.0 = Release|x64
+		{03D36DA0-F75C-463C-8808-4F6DADF26073}.Release|x86.ActiveCfg = Release|Win32
+		{03D36DA0-F75C-463C-8808-4F6DADF26073}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -491,6 +523,9 @@ Global
 		{2E9FF27C-994D-4BA2-B190-66B75A1EF4DB} = {82E4C74E-C720-4516-9929-B5A8E32E6A9A}
 		{87D470A2-3BC4-407C-8665-67A8CB422381} = {82E4C74E-C720-4516-9929-B5A8E32E6A9A}
 		{B19EFBD0-90FA-456F-99C9-D2E341634BAA} = {69DCC7D8-5777-4F6B-8791-844DA6816125}
+		{53DACA41-66A4-42B8-AE94-E93677EE487C} = {F897C39B-3EBB-4A7A-8671-F9F78358837C}
+		{E7E30E11-7C05-4DD4-A270-A2921DC78504} = {F897C39B-3EBB-4A7A-8671-F9F78358837C}
+		{03D36DA0-F75C-463C-8808-4F6DADF26073} = {F897C39B-3EBB-4A7A-8671-F9F78358837C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D95497B9-49FC-46FE-A8FA-03030E4B2CA4}

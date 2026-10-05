@@ -18,7 +18,7 @@ for loopの復習、イテレータ、`std::vector`による配列操作
 クラスの取り扱いの基礎
 #### 第04回 [read_text](read_text)、[read_text_faster](read_text_faster)、[write_text](write_text)
 C++流のファイルの読み書き
-#### 第05回
+#### 第05回 [write_binary](write_binary)、[read_binary](read_binary)
 バイナリファイルの取り扱い
 
 ### ―――基礎編―――

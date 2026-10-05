@@ -7,10 +7,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="answer_reference.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="answer_pointer.cpp">
+    <ClCompile Include="hash_t2l.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
